@@ -1,7 +1,8 @@
 const express = require('express');
-const { getHero, getFacilities, getRides, getPricing, getGallery, getLocation } = require('../controllers/homeController');
+const { getHomePage, getHero, getFacilities, getRides, getPricing, getGallery, getLocation } = require('../controllers/homeController');
 const router = express.Router();
 
+router.get('/', getHomePage);
 router.get('/hero', getHero);
 router.get('/facilities', getFacilities);
 router.get('/rides', getRides);

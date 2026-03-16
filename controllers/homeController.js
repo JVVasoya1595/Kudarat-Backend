@@ -1,5 +1,18 @@
 const Home = require('../models/Home');
 
+// @desc    Get all home page data
+// @route   GET /home
+// @access  Public
+const getHomePage = async (req, res) => {
+    try {
+        const home = await Home.findOne();
+        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        res.status(200).json({ success: true, data: home });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
+
 // @desc    Get Hero section data
 // @route   GET /home/hero
 // @access  Public
@@ -78,4 +91,4 @@ const getLocation = async (req, res) => {
     }
 };
 
-module.exports = { getHero, getFacilities, getRides, getPricing, getGallery, getLocation };
+module.exports = { getHomePage, getHero, getFacilities, getRides, getPricing, getGallery, getLocation };
