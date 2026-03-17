@@ -170,8 +170,7 @@ const seedData = async () => {
             },
             story: {
                 title: "SPLISH, SPLASH AND SOAK UP THE FUN!",
-                description: "Our expansive waterpark spans acres of pure excitement — water rides, thrilling slides, wave pools, and relaxation zones for the whole family. Whether you want high-energy adventures or to unwind by the water, Kudarat Waterpark guarantees endless fun. Make memories that last a lifetime as you dive, splash, and laugh with loved ones.",
-                imageUrl: "/home/gallery/gallery-1.png"
+                description: "Our expansive waterpark spans acres of pure excitement — water rides, thrilling slides, wave pools, and relaxation zones for the whole family. Whether you want high-energy adventures or to unwind by the water, Kudarat Waterpark guarantees endless fun. Make memories that last a lifetime as you dive, splash, and laugh with loved ones."
             },
             features: {
                 title: "What we offer",

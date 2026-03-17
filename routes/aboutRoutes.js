@@ -2,7 +2,7 @@ const express = require('express');
 const {
     getAbout,
     getAboutHero, getAboutHeroText, getAboutHeroBackground,
-    getAboutStory, getAboutStoryTitle, getAboutStoryDescription, getAboutStoryImage,
+    getAboutStory, getAboutStoryTitle, getAboutStoryDescription,
     getAboutFeatures, getAboutFeaturesTitle, getAboutFeaturesCards,
     getAboutSupport, getAboutSupportTitle, getAboutSupportPhone, getAboutSupportEmail, getAboutSupportButton
 } = require('../controllers/aboutController');
@@ -18,7 +18,6 @@ router.get('/hero/backgroundUrl', getAboutHeroBackground);
 router.get('/story', getAboutStory);
 router.get('/story/title', getAboutStoryTitle);
 router.get('/story/description', getAboutStoryDescription);
-router.get('/story/imageUrl', getAboutStoryImage);
 
 router.get('/features', getAboutFeatures);
 router.get('/features/title', getAboutFeaturesTitle);

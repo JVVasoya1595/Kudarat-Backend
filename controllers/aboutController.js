@@ -17,7 +17,17 @@ const gen = (propPath, status = 200) => async (req, res) => {
     }
 };
 
-const getAbout = gen('');
+const getAbout = async (req, res) => {
+    try {
+        const doc = await About.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'About data not seeded' });
+        const { hero, story, features, support } = doc;
+        res.status(200).json({ hero, story, features, support });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
+
 const getAboutHero = gen('hero');
 const getAboutHeroText = gen('hero.text');
 const getAboutHeroBackground = gen('hero.backgroundUrl');
@@ -25,7 +35,6 @@ const getAboutHeroBackground = gen('hero.backgroundUrl');
 const getAboutStory = gen('story');
 const getAboutStoryTitle = gen('story.title');
 const getAboutStoryDescription = gen('story.description');
-const getAboutStoryImage = gen('story.imageUrl');
 
 const getAboutFeatures = gen('features');
 const getAboutFeaturesTitle = gen('features.title');
@@ -40,7 +49,7 @@ const getAboutSupportButton = gen('support.button');
 module.exports = {
     getAbout,
     getAboutHero, getAboutHeroText, getAboutHeroBackground,
-    getAboutStory, getAboutStoryTitle, getAboutStoryDescription, getAboutStoryImage,
+    getAboutStory, getAboutStoryTitle, getAboutStoryDescription,
     getAboutFeatures, getAboutFeaturesTitle, getAboutFeaturesCards,
     getAboutSupport, getAboutSupportTitle, getAboutSupportPhone, getAboutSupportEmail, getAboutSupportButton
 };

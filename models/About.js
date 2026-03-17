@@ -10,8 +10,7 @@ const aboutSchema = new mongoose.Schema({
     },
     story: {
         title: { type: String, default: "SPLISH, SPLASH AND SOAK UP THE FUN!" },
-        description: { type: String },
-        imageUrl: { type: String }
+        description: { type: String }
     },
     features: {
         title: { type: String, default: "What we offer" },
