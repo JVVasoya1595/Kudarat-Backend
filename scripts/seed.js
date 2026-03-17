@@ -17,8 +17,7 @@ const seedData = async () => {
         await Home.create({
             hero: {
                 background: [
-                    '/home/hero/hero-bg-dummy-1.png',
-                    '/home/hero/hero-bg-dummy-2.png'
+                    '/home/hero/hero-bg.jpg'
                 ],
                 text: {
                     title: 'KUDARAT WATERPARK',
@@ -34,32 +33,32 @@ const seedData = async () => {
                 },
                 cards: [
                     {
-                        iconUrl: '/home/facilities/pool-icon.png',
+                        imageUrl: '/home/facilities/rooftop-pool.jpg',
                         title: 'ROOF-TOP POOL',
                         description: 'ENJOY STUNNING VIEWS FROM OUR EXCLUSIVE ROOF-TOP POOL'
                     },
                     {
-                        iconUrl: '/home/facilities/rides-icon.png',
+                        imageUrl: '/home/facilities/rides.jpg',
                         title: 'BEST-IN-CLASS RIDES',
                         description: 'EXPERIENCE THRILLING WATER SLIDES AND ATTRACTIONS'
                     },
                     {
-                        iconUrl: '/home/facilities/filtration-icon.png',
+                        imageUrl: '/home/facilities/filtration.jpg',
                         title: 'WATER FILTRATION',
                         description: 'CLEAN AND SAFE WATER WITH ADVANCED FILTRATION SYSTEMS'
                     },
                     {
-                        iconUrl: '/home/facilities/lockers-icon.png',
+                        imageUrl: '/home/facilities/lockers.jpg',
                         title: 'SAFE LOCKERS',
                         description: 'SECURE YOUR BELONGINGS WITH OUR RELIABLE LOCKERS'
                     },
                     {
-                        iconUrl: '/home/facilities/costume-icon.png',
+                        imageUrl: '/home/facilities/costumes.jpg',
                         title: 'COSTUME RENTALS',
                         description: 'RENT SWIMWEAR AND ACCESSORIES FOR A HASSLE-FREE VISIT'
                     },
                     {
-                        iconUrl: '/home/facilities/dine-icon.png',
+                        imageUrl: '/home/facilities/dine.jpg',
                         title: 'DINE IN WOODS',
                         description: 'SAVOR DELICIOUS MEALS IN A SCENIC WOODED SETTING'
                     }
@@ -73,22 +72,22 @@ const seedData = async () => {
                 },
                 cards: [
                     {
-                        iconUrl: '/home/rides/tsunami-icon.png',
+                        imageUrl: '/attractions/tusnami.png',
                         title: 'The Tsunami Wave',
                         description: 'Ride ocean-like waves in our main pool. Pure thrill!'
                     },
                     {
-                        iconUrl: '/home/rides/spiral-icon.png',
+                        imageUrl: '/attractions/multilane_slide.png',
                         title: 'Spiral Splash',
                         description: 'Race down spiral slides with family. Multiple lanes!'
                     },
                     {
-                        iconUrl: '/home/rides/paradise-icon.png',
+                        imageUrl: '/attractions/wave_pool.png',
                         title: 'Paradise Beach',
                         description: 'Beach-style wave pool. Relax and play in gentle waves.'
                     },
                     {
-                        iconUrl: '/home/rides/adventure-icon.png',
+                        imageUrl: '/attractions/rain_dance.png',
                         title: 'Adventure Rapids',
                         description: 'Dance under water jets and rain. Cool off & play!'
                     }
@@ -136,16 +135,12 @@ const seedData = async () => {
                     tagline: '@FOLLOW THE AMAZING MEMORIES WITH US ON INSTAGRAM'
                 },
                 images: [
-                    '/home/gallery/gallery-dummy-1.png',
-                    '/home/gallery/gallery-dummy-2.png',
-                    '/home/gallery/gallery-dummy-3.png',
-                    '/home/gallery/gallery-dummy-4.png',
-                    '/home/gallery/gallery-dummy-5.png',
-                    '/home/gallery/gallery-dummy-6.png',
-                    '/home/gallery/gallery-dummy-7.png',
-                    '/home/gallery/gallery-dummy-8.png',
-                    '/home/gallery/gallery-dummy-9.png',
-                    '/home/gallery/gallery-dummy-10.png'
+                    '/home/gallery/gallery-1.png',
+                    '/home/gallery/gallery-2.png',
+                    '/home/gallery/gallery-3.png',
+                    '/home/gallery/gallery-4.png',
+                    '/home/gallery/gallery-5.png',
+                    '/home/gallery/gallery-6.png'
                 ]
             },
             location: {
@@ -171,29 +166,25 @@ const seedData = async () => {
                     tagline: "Get to know us — we're all about splash!",
                     title: "ABOUT WATER PARK"
                 },
-                iconUrl: "/about/dolphin-dummy.png",
-                backgroundUrl: "/about/hero-bg-dummy.png"
+                backgroundUrl: "/home/hero/hero-bg.jpg"
             },
             story: {
                 title: "SPLISH, SPLASH AND SOAK UP THE FUN!",
                 description: "Our expansive waterpark spans acres of pure excitement — water rides, thrilling slides, wave pools, and relaxation zones for the whole family. Whether you want high-energy adventures or to unwind by the water, Kudarat Waterpark guarantees endless fun. Make memories that last a lifetime as you dive, splash, and laugh with loved ones.",
-                imageUrl: "/about/story-dummy.png"
+                imageUrl: "/home/gallery/gallery-1.png"
             },
             features: {
                 title: "What we offer",
                 cards: [
                     {
-                        iconUrl: "/about/slides-icon-dummy.png",
                         title: "THRILLING WATER SLIDES",
                         description: "Feel the rush with steep drops and sharp turns. Tube slides, body slides, and raft slides for an adrenaline-packed experience."
                     },
                     {
-                        iconUrl: "/about/wave-icon-dummy.png",
                         title: "WAVE POOL",
                         description: "Catch a wave at our state-of-the-art wave pool. Perfect for relaxing or having fun with the family."
                     },
                     {
-                        iconUrl: "/about/raindance-icon-dummy.png",
                         title: "RAIN DANCE PARTY",
                         description: "Dance under the rain surrounded by friends and family — drenched in pure delight!"
                     }
@@ -203,7 +194,6 @@ const seedData = async () => {
                 title: "We're Here to Help",
                 phone: "+91 85549 92350",
                 email: "info@kudaratwaterpark.com",
-                iconUrl: "/about/seal-dummy.png",
                 button: {
                     label: "Contact Us",
                     url: "/contact"
@@ -219,8 +209,7 @@ const seedData = async () => {
                     title: 'TICKET BOOKING',
                     tagline: 'Book your visit — dive in!'
                 },
-                iconUrl: '/tickets/ticket-icon-dummy.png',
-                backgroundUrl: '/tickets/hero-bg-dummy.png'
+                backgroundUrl: "/home/hero/hero-bg.jpg"
             },
             bookingForm: {
                 title: 'SELECT YOUR TICKETS',
@@ -247,13 +236,11 @@ const seedData = async () => {
                                 label: 'Adult',
                                 value: 'Adult',
                                 price: 800,
-                                iconUrl: '/tickets/adult-icon-dummy.png'
                             },
                             {
                                 label: 'Child',
                                 value: 'Child',
                                 price: 600,
-                                iconUrl: '/tickets/child-icon-dummy.png'
                             }
                         ]
                     },
@@ -280,8 +267,7 @@ const seedData = async () => {
                     title: 'RIDES & ATTRACTIONS',
                     tagline: 'Discover our rides and stay safe with our guidelines.'
                 },
-                iconUrl: '/attractions/swimmer-icon-dummy.png',
-                backgroundUrl: '/attractions/hero-bg-dummy.png'
+                backgroundUrl: "/home/hero/hero-bg.jpg"
             },
             rideDetails: {
                 text: {
@@ -297,7 +283,7 @@ const seedData = async () => {
                             height: 'Minimum 4 ft in shallow area; deep end for swimmers only',
                             age: 'Children under 12 must be accompanied by an adult'
                         },
-                        imageUrl: '/attractions/tsunami-dummy.png'
+                        imageUrl: '/attractions/tsunami.png'
                     },
                     {
                         title: 'Spiral Splash',
@@ -307,7 +293,7 @@ const seedData = async () => {
                             height: 'Min 4 ft (122 cm)',
                             age: 'Ages 8+ or with adult'
                         },
-                        imageUrl: '/attractions/spiral-dummy.png'
+                        imageUrl: '/attractions/multilane_slide.png'
                     },
                     {
                         title: 'Paradise Beach',
@@ -317,7 +303,7 @@ const seedData = async () => {
                             height: 'None in shallow area',
                             age: 'All ages; children under 12 with adult'
                         },
-                        imageUrl: '/attractions/paradise-dummy.png'
+                        imageUrl: '/attractions/wave_pool.png'
                     },
                     {
                         title: 'Adventure Rapids',
@@ -327,7 +313,7 @@ const seedData = async () => {
                             height: 'None',
                             age: 'All ages'
                         },
-                        imageUrl: '/attractions/adventure-dummy.png'
+                        imageUrl: '/attractions/rain_dance.png'
                     }
                 ]
             },
@@ -367,8 +353,7 @@ const seedData = async () => {
                     title: 'CONTACT US',
                     tagline: 'We are here to help you!'
                 },
-                iconUrl: '/contact/contact-icon-dummy.png',
-                backgroundUrl: '/contact/hero-bg-dummy.png'
+                backgroundUrl: "/home/hero/hero-bg.jpg"
             },
             contactInfo: {
                 title: 'CONTACT US',

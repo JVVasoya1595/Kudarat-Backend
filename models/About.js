@@ -6,7 +6,6 @@ const aboutSchema = new mongoose.Schema({
             tagline: { type: String, default: "Get to know us — we're all about splash!" },
             title: { type: String, default: "ABOUT WATER PARK" }
         },
-        iconUrl: { type: String }, 
         backgroundUrl: { type: String }
     },
     story: {
@@ -17,7 +16,6 @@ const aboutSchema = new mongoose.Schema({
     features: {
         title: { type: String, default: "What we offer" },
         cards: [{
-            iconUrl: { type: String },
             title: { type: String },
             description: { type: String }
         }]
@@ -26,7 +24,6 @@ const aboutSchema = new mongoose.Schema({
         title: { type: String, default: "We're Here to Help" },
         phone: { type: String },
         email: { type: String },
-        iconUrl: { type: String },
         button: {
             label: { type: String, default: "Contact Us" },
             url: { type: String, default: "/contact" }

@@ -24,6 +24,7 @@ const aboutRoutes = require('./routes/aboutRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const attractionsRoutes = require('./routes/attractionsRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const globalRoutes = require('./routes/globalRoutes');
 
 // Mount routers
 app.use('/img', imageRoutes);
@@ -32,10 +33,14 @@ app.use('/about', aboutRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/attractions', attractionsRoutes);
 app.use('/contact', contactRoutes);
+app.use('/all', globalRoutes);
 
 app.get('/', (req, res) => {
     res.send('Kedrat Waterpark API is running...');
 });
+
+const { serveImage } = require('./controllers/imageController');
+app.use(serveImage);
 
 app.use(errorHandler);
 

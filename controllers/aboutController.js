@@ -1,76 +1,46 @@
 const About = require('../models/About');
 
-// @desc    Get all About page data
-// @route   GET /about
-// @access  Public
-const getAbout = async (req, res) => {
+const gen = (propPath) => async (req, res) => {
     try {
-        const about = await About.findOne();
-        if (!about) {
-            return res.status(404).json({ success: false, error: 'About data not seeded' });
+        const doc = await About.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'About data not seeded' });
+        
+        const parts = propPath.split('.');
+        let val = doc;
+        for (const p of parts) { 
+            if (p === '') continue;
+            if (val) val = val[p]; 
         }
-        res.status(200).json(about);
+        res.status(200).json(val);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
-// @desc    Get About Hero section
-// @route   GET /about/hero
-// @access  Public
-const getAboutHero = async (req, res) => {
-    try {
-        const about = await About.findOne();
-        if (!about) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(about.hero);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getAbout = gen('');
+const getAboutHero = gen('hero');
+const getAboutHeroText = gen('hero.text');
+const getAboutHeroBackground = gen('hero.backgroundUrl');
 
-// @desc    Get About Story section
-// @route   GET /about/story
-// @access  Public
-const getAboutStory = async (req, res) => {
-    try {
-        const about = await About.findOne();
-        if (!about) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(about.story);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getAboutStory = gen('story');
+const getAboutStoryTitle = gen('story.title');
+const getAboutStoryDescription = gen('story.description');
+const getAboutStoryImage = gen('story.imageUrl');
 
-// @desc    Get About Features section
-// @route   GET /about/features
-// @access  Public
-const getAboutFeatures = async (req, res) => {
-    try {
-        const about = await About.findOne();
-        if (!about) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(about.features);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getAboutFeatures = gen('features');
+const getAboutFeaturesTitle = gen('features.title');
+const getAboutFeaturesCards = gen('features.cards');
 
-// @desc    Get About Support section
-// @route   GET /about/support
-// @access  Public
-const getAboutSupport = async (req, res) => {
-    try {
-        const about = await About.findOne();
-        if (!about) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(about.support);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getAboutSupport = gen('support');
+const getAboutSupportTitle = gen('support.title');
+const getAboutSupportPhone = gen('support.phone');
+const getAboutSupportEmail = gen('support.email');
+const getAboutSupportButton = gen('support.button');
 
 module.exports = {
     getAbout,
-    getAboutHero,
-    getAboutStory,
-    getAboutFeatures,
-    getAboutSupport
+    getAboutHero, getAboutHeroText, getAboutHeroBackground,
+    getAboutStory, getAboutStoryTitle, getAboutStoryDescription, getAboutStoryImage,
+    getAboutFeatures, getAboutFeaturesTitle, getAboutFeaturesCards,
+    getAboutSupport, getAboutSupportTitle, getAboutSupportPhone, getAboutSupportEmail, getAboutSupportButton
 };

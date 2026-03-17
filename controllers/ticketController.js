@@ -1,78 +1,50 @@
 const TicketPage = require('../models/TicketPage');
 const Booking = require('../models/Booking');
 
-// @desc    Get Ticket page static data
-// @route   GET /tickets
-// @access  Public
-const getTicketPageData = async (req, res) => {
+const gen = (propPath) => async (req, res) => {
     try {
-        const ticketPage = await TicketPage.findOne();
-        if (!ticketPage) {
-            return res.status(404).json({ success: false, error: 'Ticket page data not seeded' });
+        const doc = await TicketPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        
+        const parts = propPath.split('.');
+        let val = doc;
+        for (const p of parts) { 
+            if (p === '') continue;
+            if (val) val = val[p]; 
         }
-        res.status(200).json(ticketPage);
+        res.status(200).json(val);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
-// @desc    Get Ticket Hero section data
-// @route   GET /tickets/hero
-// @access  Public
-const getTicketHero = async (req, res) => {
-    try {
-        const ticketPage = await TicketPage.findOne();
-        if (!ticketPage) {
-            return res.status(404).json({ success: false, error: 'Data not seeded' });
-        }
-        res.status(200).json(ticketPage.hero);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getTicketPageData = gen('');
+const getTicketHero = gen('hero');
+const getTicketHeroText = gen('hero.text');
+const getTicketHeroBackground = gen('hero.backgroundUrl');
 
-// @desc    Get Ticket Booking Form section data
-// @route   GET /tickets/form
-// @access  Public
-const getTicketForm = async (req, res) => {
-    try {
-        const ticketPage = await TicketPage.findOne();
-        if (!ticketPage) {
-            return res.status(404).json({ success: false, error: 'Data not seeded' });
-        }
-        res.status(200).json(ticketPage.bookingForm);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getTicketForm = gen('bookingForm');
+const getTicketFormTitle = gen('bookingForm.title');
+const getTicketFormFields = gen('bookingForm.fields');
+const getTicketFormSummary = gen('bookingForm.summary');
+const getTicketFormButton = gen('bookingForm.submitButton');
 
-// @desc    Store a new booking
-// @route   POST /tickets/book
-// @access  Public
 const createBooking = async (req, res) => {
     try {
         const { name, email, phone, date, ticketType, adults, children, totalAmount } = req.body;
-        
-        // Basic validation
         if (!name || !email || !phone || !date || !totalAmount) {
             return res.status(400).json({ success: false, error: 'Please provide all required fields' });
         }
-
-        const booking = await Booking.create({
-            name,
-            email,
-            phone,
-            date,
-            ticketType,
-            adults,
-            children,
-            totalAmount
-        });
-
+        const booking = await Booking.create({ name, email, phone, date, ticketType, adults, children, totalAmount });
         res.status(201).json({ success: true, data: booking });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
-module.exports = { getTicketPageData, getTicketHero, getTicketForm, createBooking };
+module.exports = {
+    getTicketPageData,
+    getTicketHero, getTicketHeroText, getTicketHeroBackground,
+    getTicketForm, getTicketFormTitle, getTicketFormFields, getTicketFormSummary, getTicketFormButton,
+    createBooking
+};

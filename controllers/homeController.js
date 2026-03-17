@@ -1,8 +1,22 @@
 const Home = require('../models/Home');
 
-// @desc    Get all home page data
-// @route   GET /home
-// @access  Public
+const gen = (propPath, status=200) => async (req, res) => {
+    try {
+        const doc = await Home.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        
+        const parts = propPath.split('.');
+        let val = doc;
+        for (const p of parts) { 
+            if (p === '') continue;
+            if (val) val = val[p]; 
+        }
+        res.status(status).json(val);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+};
+
 const getHomePage = async (req, res) => {
     try {
         const home = await Home.findOne();
@@ -13,82 +27,36 @@ const getHomePage = async (req, res) => {
     }
 };
 
-// @desc    Get Hero section data
-// @route   GET /home/hero
-// @access  Public
-const getHero = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.hero);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getHero = gen('hero');
+const getHeroBackground = gen('hero.background');
+const getHeroText = gen('hero.text');
 
-// @desc    Get Premium Facilities section data
-// @route   GET /home/facilities
-// @access  Public
-const getFacilities = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.premiumFacilities);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getFacilities = gen('premiumFacilities');
+const getFacilitiesText = gen('premiumFacilities.text');
+const getFacilitiesCards = gen('premiumFacilities.cards');
 
-// @desc    Get Signature Rides section data
-// @route   GET /home/rides
-// @access  Public
-const getRides = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.signatureRides);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getRides = gen('signatureRides');
+const getRidesText = gen('signatureRides.text');
+const getRidesCards = gen('signatureRides.cards');
+const getRidesButton = gen('signatureRides.button');
 
-// @desc    Get Pricing section data
-// @route   GET /home/pricing
-// @access  Public
-const getPricing = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.pricing);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getPricing = gen('pricing');
+const getPricingText = gen('pricing.text');
+const getPricingCards = gen('pricing.cards');
 
-// @desc    Get Gallery section data
-// @route   GET /home/gallery
-// @access  Public
-const getGallery = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.gallery);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getGallery = gen('gallery');
+const getGalleryText = gen('gallery.text');
+const getGalleryImages = gen('gallery.images');
 
-// @desc    Get Location section data
-// @route   GET /home/location
-// @access  Public
-const getLocation = async (req, res) => {
-    try {
-        const home = await Home.findOne();
-        if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        res.status(200).json(home.location);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-};
+const getLocation = gen('location');
+const getLocationText = gen('location.text');
+const getLocationInfo = gen('location.info');
 
-module.exports = { getHomePage, getHero, getFacilities, getRides, getPricing, getGallery, getLocation };
+module.exports = {
+    getHomePage, getHero, getHeroBackground, getHeroText, 
+    getFacilities, getFacilitiesText, getFacilitiesCards,
+    getRides, getRidesText, getRidesCards, getRidesButton,
+    getPricing, getPricingText, getPricingCards,
+    getGallery, getGalleryText, getGalleryImages,
+    getLocation, getLocationText, getLocationInfo
+};

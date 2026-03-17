@@ -6,7 +6,6 @@ const ticketPageSchema = new mongoose.Schema({
             title: { type: String, default: 'TICKET BOOKING' },
             tagline: { type: String, default: 'Book your visit — dive in!' }
         },
-        iconUrl: { type: String },
         backgroundUrl: { type: String }
     },
     bookingForm: {
@@ -33,7 +32,6 @@ const ticketPageSchema = new mongoose.Schema({
                     label: { type: String },
                     value: { type: String },
                     price: { type: Number },
-                    iconUrl: { type: String }
                 }]
             },
             quantity: {

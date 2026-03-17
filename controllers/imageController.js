@@ -16,17 +16,17 @@ const MEDIA_MIME = {
     '.mp4': 'video/mp4',
 };
 
-const serveImage = (req, res) => {
+const serveImage = (req, res, next) => {
     const segments = req.path.split('/');
     const token = segments[segments.length - 1];
 
     if (!token) {
-        return res.status(400).json({ success: false, error: 'Token missing' });
+        return next ? next() : res.status(400).json({ success: false, error: 'Token missing' });
     }
 
     const realUrl = decryptImageUrl(token);
     if (!realUrl) {
-        return res.status(400).json({ success: false, error: 'Invalid token' });
+        return next ? next() : res.status(400).json({ success: false, error: 'Invalid token' });
     }
 
     // Check if it's a local file path
@@ -47,6 +47,7 @@ const serveImage = (req, res) => {
         return fs.createReadStream(localPath).pipe(res);
     }
 
+    if (next) return next();
     res.status(404).json({ success: false, error: 'File not found' });
 };
 

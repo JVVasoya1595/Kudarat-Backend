@@ -16,7 +16,7 @@ const homeSchema = new mongoose.Schema({
             subtitle: { type: String, default: 'DISCOVER THE BEST AMENITIES FOR AN UNFORGETTABLE WATERPARK EXPERIENCE' }
         },
         cards: [{
-            iconUrl: { type: String },
+            imageUrl: { type: String },
             title: { type: String },
             description: { type: String }
         }]
@@ -28,7 +28,7 @@ const homeSchema = new mongoose.Schema({
             subtitle: { type: String, default: 'OUR MOST-LOVED ATTRACTIONS – THRILLS, WAVES, AND ENDLESS SPLASH FOR EVERYONE.' }
         },
         cards: [{
-            iconUrl: { type: String },
+            imageUrl: { type: String },
             title: { type: String },
             description: { type: String }
         }],

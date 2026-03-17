@@ -6,7 +6,6 @@ const contactPageSchema = new mongoose.Schema({
             title: { type: String, default: 'CONTACT US' },
             tagline: { type: String, default: 'We are here to help you!' }
         },
-        iconUrl: { type: String },
         backgroundUrl: { type: String }
     },
     contactInfo: {

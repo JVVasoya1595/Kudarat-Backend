@@ -1,105 +1,173 @@
-# Kudarat Waterpark Backend
+# 🌊 Kudarat Waterpark Backend
 
-This is the backend API for the Kudarat Waterpark website. It provides endpoints for managing home page content, about section, attractions, ticket pricing, and contact inquiries.
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/database-MongoDB-green)](https://www.mongodb.com/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Express](https://img.shields.io/badge/framework-Express-lightgrey)](https://expressjs.com/)
 
-## 🚀 Teck Stack
+A robust, secure, and scalable RESTful API built for the **Kudarat Waterpark** web application. This backend manages everything from dynamic landing page content to secure image distribution and user inquiries.
 
-- **Node.js** & **Express** - Backend framework
-- **MongoDB** & **Mongoose** - Database and ODM
-- **JWT** - Secure communication (via image encryption/token system)
-- **CORS** - Cross-Origin Resource Sharing
-- **Dotenv** - Environment variables management
-- **IP** - For server network details
+---
 
-## 📁 Project Structure
+## 🌟 Features
+
+- **🚀 Dynamic Content Management**: Fully controlled via MongoDB for easy updates to Hero sections, Pricing, and Gallery.
+- **🛡️ Advanced Security**: AES-256-CBC encryption for all sensitive image URLs via custom middleware.
+- **🖼️ Smart Asset Handling**: Automatic detection and encryption of image paths in API responses.
+- **📍 Location Services**: Management of contact details and Google Maps integration.
+- **🎫 Ticketing Engine**: Configurable pricing and booking options for different visitor categories.
+- **📨 Inquiry System**: Secure storage for customer messages and lead generation.
+- **🛠️ Global Error Handling**: Standardized JSON responses for all server-side exceptions.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+| :--- | :--- |
+| **Node.js** | Runtime Environment |
+| **Express.js** | Web Framework |
+| **MongoDB** | NoSQL Database |
+| **Mongoose** | MongoDB Object Modeling (ODM) |
+| **Crypto** | AES Image Encryption |
+| **CORS** | Cross-Origin resource management |
+| **Dotenv** | Secret Management |
+
+---
+
+## 📁 Project Architecture
 
 ```text
 e:\Kudarat-backend
-├── config/             # Database configuration
-├── controllers/        # Request handlers (Home, About, Attractions, Contact, etc.)
-├── middleware/         # Custom middlewares (ErrorHandler, Image Encryption)
-├── models/             # Mongoose schemas
-├── public/             # Static assets (Images, Icons)
-├── routes/             # API route definitions
-├── scripts/            # Selection scripts (Database seeding)
-├── utils/              # Utility functions
-├── server.js           # Entry point
-└── .env                # Configuration file
+├── config/             # Database connection & system configs
+├── controllers/        # Logical request handlers
+│   ├── homeController.js
+│   ├── aboutController.js
+│   └── ...
+├── middleware/         # Security & utility filters
+│   ├── imageEncrypt.js # Real-time URL encryption
+│   └── errorHandler.js # Centralized error responses
+├── models/             # Mongoose Data Schemas
+├── public/             # Static assets (rides, gallery, etc.)
+├── routes/             # Endpoint definitions
+├── scripts/            # Database utility scripts (Seed, Migrate)
+├── utils/              # Helper functions (Encryption/Decryption)
+├── server.js           # Server Entry Point
+└── .env                # Environment variables
 ```
 
-## 🛠️ Getting Started
+---
 
-### Prerequisites
+## 🔐 Core Security: Image URL Encryption
 
-- Node.js (v14+ recommended)
-- MongoDB (Running locally or on Atlas)
+The backend implements a sophisticated **Image Encryption Layer**.
+- **How it works**: Every image URL field in the database response is intercepted by the `imageEncryptMiddleware`.
+- **Encryption**: It uses **AES-256-CBC** with a unique IV for every URL.
+- **Output**: Real paths like `/img/ride.png` are transformed into encrypted tokens (`iv.ciphertext`).
+- **Decryption**: The `/img/:token` route decrypts the token on-the-fly to serve the actual file.
 
-### Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd Kudarat-backend
-   ```
+## 🚀 Getting Started
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+### 1. Prerequisites
+- [Node.js](https://nodejs.org/) (v14+)
+- [MongoDB](https://www.mongodb.com/try/download/community) (Local or Compass)
 
-3. Configure Environment Variables:
-   Create a `.env` file in the root directory and add the following:
-   ```env
-   PORT=5005
-   MONGO_URI=mongodb://localhost:27017/kedrat
-   SERVER_URL=http://localhost:5005
-   CORS_ORIGIN=http://localhost:5173
-   ENCRYPTION_KEY=your_secure_32_character_key
-   NODE_ENV=development
-   ```
+### 2. Configuration (`.env`)
+Create a `.env` in the root:
+```env
+PORT=5005
+MONGO_URI=mongodb://localhost:27017/kedrat
+SERVER_URL=http://localhost:5005
+CORS_ORIGIN=http://localhost:5173
+ENCRYPTION_KEY=12345678901234567890123456789012
+NODE_ENV=development
+```
 
-4. Seed the Database:
-   ```bash
-   npm run seed
-   ```
+### 3. Installation
+```bash
+npm install
+```
 
-5. Run the Server:
-   - For production: `npm start`
-   - For development: `npm run dev`
+### 4. Database Initialization (Seed)
+Populate the database with initial waterpark data:
+```bash
+npm run seed
+```
 
-## 🔗 API Endpoints
+### 5. Start Server
+```bash
+# Development mode (Auto-restart)
+npm run dev
 
-### 🏠 Home Page
-- `GET /home` - Get all home page sections
-- `GET /home/hero` - Get hero section data
-- `GET /home/facilities` - Get premium facilities
-- `GET /home/rides` - Get signature rides
-- `GET /home/pricing` - Get pricing section
-- `GET /home/gallery` - Get gallery images
-- `GET /home/location` - Get location & contact info
+# Production mode
+npm start
+```
 
-### ℹ️ About Page
-- `GET /about` - Get about page content
+---
 
-### 🎢 Attractions
-- `GET /attractions` - Get all rides, attractions, and safety guidelines
+## 🔗 API Documentation
 
-### 🎫 Tickets
-- `GET /tickets` - Get ticket booking page data and pricing
+### 🏠 Home Section
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/home` | `GET` | Retrieve entire landing page payload |
+| `/home/hero` | `GET` | Get hero backgrounds and text |
+| `/home/pricing` | `GET` | Get current ticket pricing cards |
+| `/home/gallery` | `GET` | Get social media gallery images |
 
-### 📞 Contact
-- `GET /contact` - Get contact page info
-- `POST /contact/inquiry` - Submit a new inquiry (Name, Email, Message)
+### 🎢 Attractions & Tickets
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/attractions` | `GET` | List all rides, categories, and safety rules |
+| `/tickets` | `GET` | Get booking form labels and ticket types |
 
-### 🖼️ Images
-- `GET /img/:path` - Access protected/encrypted images
+### ✉️ Contact & Support
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/contact` | `GET` | Get support phone, email, and address |
+| `/contact/inquiry` | `POST` | Submit a new lead (Name, Email, Message) |
 
-## 🛡️ Special Features
+---
 
-- **Image Encryption Middleware**: Ensures that images are accessed through secure tokens/paths.
-- **Global Error Handler**: Unified error response format for all API failures.
-- **Seeding Script**: Easily re-initialize the database with default content.
+## 📊 Database Relationship (Conceptual)
+
+```mermaid
+erDiagram
+    HOME ||--o{ CARDS : contains
+    HOME {
+        string heroTitle
+        array premiumFacilities
+        array signatureRides
+    }
+    TICKETS ||--o{ TICKET_TYPES : defines
+    TICKETS {
+        string bookingTitle
+        array options
+    }
+    INQUIRY {
+        string name
+        string email
+        text message
+    }
+```
+
+---
+
+## 🤝 Contribution
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
 
 ## 📄 License
+Distributed under the **ISC License**. See `LICENSE` for more information.
 
-This project is licensed under the ISC License.
+---
+**Developed by JVVasoya1595**  
+*Building splash-tastic digital experiences.*

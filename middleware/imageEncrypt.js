@@ -1,8 +1,8 @@
 const { encryptImageUrl } = require('../utils/imageToken');
 
 const IMAGE_URL_FIELDS = new Set([
-    'imageUrl', 'image', 'thumbnail', 'thumbnailUrl', 'poster', 'banner',
-    'logo', 'logoUrl', 'avatar', 'icon', 'iconUrl', 'backgroundImage',
+    'imageUrl', 'image', 'images', 'thumbnail', 'thumbnailUrl', 'poster', 'banner',
+    'logo', 'logoUrl', 'avatar', 'backgroundImage',
     'coverImage', 'bgImage', 'backgroundUrl', 'patternUrl', 'videoUrl',
     'url', 'content', 'src', 'background'
 ]);
@@ -16,6 +16,14 @@ const looksLikeImagePath = (value) => {
 };
 
 const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
+    if (typeof obj === 'string' && looksLikeImagePath(obj)) {
+        let fullUrl = obj;
+        if (!obj.startsWith('http')) {
+            fullUrl = `${baseUrl}${obj.startsWith('/') ? '' : '/'}${obj}`;
+        }
+        return encryptImageUrl(fullUrl);
+    }
+
     if (Array.isArray(obj)) {
         return obj.map((item) => encryptImagesInObject(item, frontendOrigin, baseUrl));
     }
@@ -33,7 +41,7 @@ const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
                     continue;
                 } else if (Array.isArray(value)) {
                     result[key] = value.map((item) => {
-                        if (looksLikeImagePath(item)) {
+                        if (typeof item === 'string' && looksLikeImagePath(item)) {
                             let fullUrl = item;
                             if (!item.startsWith('http')) {
                                 fullUrl = `${baseUrl}${item.startsWith('/') ? '' : '/'}${item}`;
@@ -45,7 +53,8 @@ const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
                     continue;
                 }
             }
-            result[key] = encryptImagesInObject(value, frontendOrigin, baseUrl);
+            // Array fallback for mapping nested elements
+            result[key] = Array.isArray(value) ? value.map((item) => encryptImagesInObject(item, frontendOrigin, baseUrl)) : encryptImagesInObject(value, frontendOrigin, baseUrl);
         }
         return result;
     }
@@ -60,7 +69,11 @@ const imageEncryptMiddleware = (req, res, next) => {
         try {
             if (body && typeof body === 'object') {
                 body = JSON.parse(JSON.stringify(body));
-                const baseUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
+                
+                // Prioritize the actual request host so mobile devices see the local IP instead of localhost
+                const reqHost = req.get('host');
+                const baseUrl = reqHost ? `${req.protocol}://${reqHost}` : process.env.SERVER_URL;
+                
                 const frontendOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173';
                 body = encryptImagesInObject(body, frontendOrigin, baseUrl);
             }
