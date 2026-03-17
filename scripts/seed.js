@@ -33,32 +33,32 @@ const seedData = async () => {
                 },
                 cards: [
                     {
-                        imageUrl: '/home/facilities/rooftop-pool.jpg',
+                        imageUrl: '/home/gallery/gallery-1.png',
                         title: 'ROOF-TOP POOL',
                         description: 'ENJOY STUNNING VIEWS FROM OUR EXCLUSIVE ROOF-TOP POOL'
                     },
                     {
-                        imageUrl: '/home/facilities/rides.jpg',
+                        imageUrl: '/home/gallery/gallery-2.png',
                         title: 'BEST-IN-CLASS RIDES',
                         description: 'EXPERIENCE THRILLING WATER SLIDES AND ATTRACTIONS'
                     },
                     {
-                        imageUrl: '/home/facilities/filtration.jpg',
+                        imageUrl: '/home/gallery/gallery-3.png',
                         title: 'WATER FILTRATION',
                         description: 'CLEAN AND SAFE WATER WITH ADVANCED FILTRATION SYSTEMS'
                     },
                     {
-                        imageUrl: '/home/facilities/lockers.jpg',
+                        imageUrl: '/home/gallery/gallery-4.png',
                         title: 'SAFE LOCKERS',
                         description: 'SECURE YOUR BELONGINGS WITH OUR RELIABLE LOCKERS'
                     },
                     {
-                        imageUrl: '/home/facilities/costumes.jpg',
+                        imageUrl: '/home/gallery/gallery-5.png',
                         title: 'COSTUME RENTALS',
                         description: 'RENT SWIMWEAR AND ACCESSORIES FOR A HASSLE-FREE VISIT'
                     },
                     {
-                        imageUrl: '/home/facilities/dine.jpg',
+                        imageUrl: '/home/gallery/gallery-6.png',
                         title: 'DINE IN WOODS',
                         description: 'SAVOR DELICIOUS MEALS IN A SCENIC WOODED SETTING'
                     }
@@ -135,12 +135,12 @@ const seedData = async () => {
                     tagline: '@FOLLOW THE AMAZING MEMORIES WITH US ON INSTAGRAM'
                 },
                 images: [
-                    '/home/gallery/gallery-1.png',
-                    '/home/gallery/gallery-2.png',
-                    '/home/gallery/gallery-3.png',
-                    '/home/gallery/gallery-4.png',
-                    '/home/gallery/gallery-5.png',
-                    '/home/gallery/gallery-6.png'
+                    '/home/facilities/rooftop-pool.jpg',
+                    '/home/facilities/rides.jpg',
+                    '/home/facilities/filtration.jpg',
+                    '/home/facilities/lockers.jpg',
+                    '/home/facilities/costumes.jpg',
+                    '/home/facilities/dine.jpg'
                 ]
             },
             location: {
