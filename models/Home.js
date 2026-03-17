@@ -28,7 +28,6 @@ const homeSchema = new mongoose.Schema({
             subtitle: { type: String, default: 'OUR MOST-LOVED ATTRACTIONS – THRILLS, WAVES, AND ENDLESS SPLASH FOR EVERYONE.' }
         },
         cards: [{
-            imageUrl: { type: String },
             title: { type: String },
             description: { type: String }
         }],
@@ -47,7 +46,10 @@ const homeSchema = new mongoose.Schema({
             title: { type: String },
             subtitle: { type: String },
             price: { type: String },
-            details: { type: String }
+            time: { type: String },
+            requirements: { type: String },
+            rent: { type: String },
+            refund: { type: String }
         }]
     },
     gallery: {

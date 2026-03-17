@@ -11,7 +11,7 @@ dotenv.config();
 const seedData = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        
+
         // --- SEED HOME ---
         await Home.deleteMany();
         await Home.create({
@@ -72,22 +72,18 @@ const seedData = async () => {
                 },
                 cards: [
                     {
-                        imageUrl: '/attractions/tusnami.png',
                         title: 'The Tsunami Wave',
                         description: 'Ride ocean-like waves in our main pool. Pure thrill!'
                     },
                     {
-                        imageUrl: '/attractions/multilane_slide.png',
                         title: 'Spiral Splash',
                         description: 'Race down spiral slides with family. Multiple lanes!'
                     },
                     {
-                        imageUrl: '/attractions/wave_pool.png',
                         title: 'Paradise Beach',
                         description: 'Beach-style wave pool. Relax and play in gentle waves.'
                     },
                     {
-                        imageUrl: '/attractions/rain_dance.png',
                         title: 'Adventure Rapids',
                         description: 'Dance under water jets and rain. Cool off & play!'
                     }
@@ -108,25 +104,29 @@ const seedData = async () => {
                         title: 'MONDAY - THURSDAY',
                         subtitle: 'REGULAR DAYS',
                         price: '₹899/PERSON',
-                        details: '9:30 AM TO 5:30 PM, KIDS BELOW 3 YEARS - FREE ENTRY.'
+                        time: '9:30 AM TO 5:30 PM',
+                        requirements: 'KIDS BELOW 3 YEARS - FREE ENTRY.'
                     },
                     {
                         title: 'FRIDAY - SUNDAY',
                         subtitle: 'WEEKENDS & HOLIDAYS',
                         price: '₹999/PERSON',
-                        details: '9:30 AM TO 6:00 PM, KIDS BELOW 3 YEARS - FREE ENTRY.'
+                        time: '9:30 AM TO 6:00 PM',
+                        requirements: 'KIDS BELOW 3 YEARS - FREE ENTRY.'
                     },
                     {
                         title: 'COSTUME CHARGES',
                         subtitle: 'RENTAL GEAR',
                         price: '₹500',
-                        details: '₹150 RENT, ₹150 REFUNDABLE DEPOSIT.'
+                        rent: '₹150 RENT',
+                        refund: '₹150 REFUNDABLE DEPOSIT.'
                     },
                     {
                         title: 'LOCKER CHARGES',
                         subtitle: 'SECURE STORAGE',
                         price: '₹350',
-                        details: '₹200 RENT, ₹150 REFUNDABLE DEPOSIT.'
+                        rent: '₹200 RENT',
+                        refund: '₹150 REFUNDABLE DEPOSIT.'
                     }
                 ]
             },
