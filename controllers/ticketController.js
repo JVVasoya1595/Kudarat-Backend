@@ -21,7 +21,6 @@ const gen = (propPath) => async (req, res) => {
 const getTicketPageData = gen('');
 const getTicketHero = gen('hero');
 const getTicketHeroText = gen('hero.text');
-const getTicketHeroBackground = gen('hero.backgroundUrl');
 
 const getTicketForm = gen('bookingForm');
 const getTicketFormTitle = gen('bookingForm.title');
@@ -44,7 +43,7 @@ const createBooking = async (req, res) => {
 
 module.exports = {
     getTicketPageData,
-    getTicketHero, getTicketHeroText, getTicketHeroBackground,
+    getTicketHero, getTicketHeroText,
     getTicketForm, getTicketFormTitle, getTicketFormFields, getTicketFormSummary, getTicketFormButton,
     createBooking
 };

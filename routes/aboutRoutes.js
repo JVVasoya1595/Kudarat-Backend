@@ -1,7 +1,7 @@
 const express = require('express');
 const {
     getAbout,
-    getAboutHero, getAboutHeroText, getAboutHeroBackground,
+    getAboutHero, getAboutHeroText,
     getAboutStory, getAboutStoryTitle, getAboutStoryDescription,
     getAboutFeatures, getAboutFeaturesTitle, getAboutFeaturesCards,
     getAboutSupport, getAboutSupportTitle, getAboutSupportPhone, getAboutSupportEmail, getAboutSupportButton
@@ -13,7 +13,6 @@ router.get('/', getAbout);
 
 router.get('/hero', getAboutHero);
 router.get('/hero/text', getAboutHeroText);
-router.get('/hero/backgroundUrl', getAboutHeroBackground);
 
 router.get('/story', getAboutStory);
 router.get('/story/title', getAboutStoryTitle);

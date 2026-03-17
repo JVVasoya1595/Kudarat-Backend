@@ -5,8 +5,7 @@ const aboutSchema = new mongoose.Schema({
         text: {
             tagline: { type: String, default: "Get to know us — we're all about splash!" },
             title: { type: String, default: "ABOUT WATER PARK" }
-        },
-        backgroundUrl: { type: String }
+        }
     },
     story: {
         title: { type: String, default: "SPLISH, SPLASH AND SOAK UP THE FUN!" },

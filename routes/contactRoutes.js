@@ -1,7 +1,7 @@
 const express = require('express');
 const {
     getContactPage,
-    getContactHero, getContactHeroText, getContactHeroBackground,
+    getContactHero, getContactHeroText,
     getContactInfo, getContactInfoTitle, getContactInfoPhones, getContactInfoEmails, getContactInfoAddress, getContactInfoMap, getContactInfoButton,
     getContactForm, getContactFormTitle, getContactFormFields, getContactFormButton,
     createInquiry
@@ -12,7 +12,6 @@ router.get('/', getContactPage);
 
 router.get('/hero', getContactHero);
 router.get('/hero/text', getContactHeroText);
-router.get('/hero/backgroundUrl', getContactHeroBackground);
 
 router.get('/info', getContactInfo);
 router.get('/info/title', getContactInfoTitle);

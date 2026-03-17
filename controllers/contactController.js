@@ -21,7 +21,6 @@ const gen = (propPath) => async (req, res) => {
 const getContactPage = gen('');
 const getContactHero = gen('hero');
 const getContactHeroText = gen('hero.text');
-const getContactHeroBackground = gen('hero.backgroundUrl');
 
 const getContactInfo = gen('contactInfo');
 const getContactInfoTitle = gen('contactInfo.title');
@@ -51,7 +50,7 @@ const createInquiry = async (req, res) => {
 
 module.exports = {
     getContactPage,
-    getContactHero, getContactHeroText, getContactHeroBackground,
+    getContactHero, getContactHeroText,
     getContactInfo, getContactInfoTitle, getContactInfoPhones, getContactInfoEmails, getContactInfoAddress, getContactInfoMap, getContactInfoButton,
     getContactForm, getContactFormTitle, getContactFormFields, getContactFormButton,
     createInquiry

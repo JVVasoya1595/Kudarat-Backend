@@ -5,8 +5,7 @@ const ticketPageSchema = new mongoose.Schema({
         text: {
             title: { type: String, default: 'TICKET BOOKING' },
             tagline: { type: String, default: 'Book your visit — dive in!' }
-        },
-        backgroundUrl: { type: String }
+        }
     },
     bookingForm: {
         title: { type: String, default: 'SELECT YOUR TICKETS' },

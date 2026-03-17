@@ -1,7 +1,7 @@
 const express = require('express');
 const {
     getAttractionsPage,
-    getAttractionsHero, getAttractionsHeroText, getAttractionsHeroBackground,
+    getAttractionsHero, getAttractionsHeroText,
     getAttractionsDetails, getAttractionsDetailsText, getAttractionsList,
     getAttractionsSafety, getAttractionsSafetyTitle, getAttractionsSafetySubtitle, getAttractionsSafetyRules,
     getAttractionsCta, getAttractionsCtaButton, getAttractionsCtaUrl
@@ -13,7 +13,6 @@ router.get('/', getAttractionsPage);
 
 router.get('/hero', getAttractionsHero);
 router.get('/hero/text', getAttractionsHeroText);
-router.get('/hero/backgroundUrl', getAttractionsHeroBackground);
 
 router.get('/details', getAttractionsDetails);
 router.get('/details/text', getAttractionsDetailsText);

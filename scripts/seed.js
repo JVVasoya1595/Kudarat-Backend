@@ -265,8 +265,7 @@ const seedData = async () => {
                 text: {
                     title: 'RIDES & ATTRACTIONS',
                     tagline: 'Discover our rides and stay safe with our guidelines.'
-                },
-                backgroundUrl: "/home/hero/hero-bg.jpg"
+                }
             },
             rideDetails: {
                 text: {
@@ -351,8 +350,7 @@ const seedData = async () => {
                 text: {
                     title: 'CONTACT US',
                     tagline: 'We are here to help you!'
-                },
-                backgroundUrl: "/home/hero/hero-bg.jpg"
+                }
             },
             contactInfo: {
                 title: 'CONTACT US',

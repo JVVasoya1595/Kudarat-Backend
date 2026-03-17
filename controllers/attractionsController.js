@@ -20,7 +20,6 @@ const gen = (propPath, status = 200) => async (req, res) => {
 const getAttractionsPage = gen('');
 const getAttractionsHero = gen('hero');
 const getAttractionsHeroText = gen('hero.text');
-const getAttractionsHeroBackground = gen('hero.backgroundUrl');
 
 const getAttractionsDetails = gen('rideDetails');
 const getAttractionsDetailsText = gen('rideDetails.text');
@@ -37,7 +36,7 @@ const getAttractionsCtaUrl = gen('cta.url');
 
 module.exports = {
     getAttractionsPage,
-    getAttractionsHero, getAttractionsHeroText, getAttractionsHeroBackground,
+    getAttractionsHero, getAttractionsHeroText,
     getAttractionsDetails, getAttractionsDetailsText, getAttractionsList,
     getAttractionsSafety, getAttractionsSafetyTitle, getAttractionsSafetySubtitle, getAttractionsSafetyRules,
     getAttractionsCta, getAttractionsCtaButton, getAttractionsCtaUrl

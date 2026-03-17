@@ -30,7 +30,6 @@ const getAbout = async (req, res) => {
 
 const getAboutHero = gen('hero');
 const getAboutHeroText = gen('hero.text');
-const getAboutHeroBackground = gen('hero.backgroundUrl');
 
 const getAboutStory = gen('story');
 const getAboutStoryTitle = gen('story.title');
@@ -48,7 +47,7 @@ const getAboutSupportButton = gen('support.button');
 
 module.exports = {
     getAbout,
-    getAboutHero, getAboutHeroText, getAboutHeroBackground,
+    getAboutHero, getAboutHeroText,
     getAboutStory, getAboutStoryTitle, getAboutStoryDescription,
     getAboutFeatures, getAboutFeaturesTitle, getAboutFeaturesCards,
     getAboutSupport, getAboutSupportTitle, getAboutSupportPhone, getAboutSupportEmail, getAboutSupportButton
