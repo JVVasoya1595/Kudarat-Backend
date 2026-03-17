@@ -1,15 +1,15 @@
 const Home = require('../models/Home');
 
-const gen = (propPath, status=200) => async (req, res) => {
+const gen = (propPath, status = 200) => async (req, res) => {
     try {
         const doc = await Home.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        
+
         const parts = propPath.split('.');
         let val = doc;
-        for (const p of parts) { 
+        for (const p of parts) {
             if (p === '') continue;
-            if (val) val = val[p]; 
+            if (val) val = val[p];
         }
         res.status(status).json(val);
     } catch (error) {
@@ -53,7 +53,7 @@ const getLocationText = gen('location.text');
 const getLocationInfo = gen('location.info');
 
 module.exports = {
-    getHomePage, getHero, getHeroBackground, getHeroText, 
+    getHomePage, getHero, getHeroBackground, getHeroText,
     getFacilities, getFacilitiesText, getFacilitiesCards,
     getRides, getRidesText, getRidesCards, getRidesButton,
     getPricing, getPricingText, getPricingCards,

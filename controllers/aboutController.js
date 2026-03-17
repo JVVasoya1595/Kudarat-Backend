@@ -1,17 +1,17 @@
 const About = require('../models/About');
 
-const gen = (propPath) => async (req, res) => {
+const gen = (propPath, status = 200) => async (req, res) => {
     try {
         const doc = await About.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'About data not seeded' });
-        
+
         const parts = propPath.split('.');
         let val = doc;
-        for (const p of parts) { 
+        for (const p of parts) {
             if (p === '') continue;
-            if (val) val = val[p]; 
+            if (val) val = val[p];
         }
-        res.status(200).json(val);
+        res.status(status).json(val);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
