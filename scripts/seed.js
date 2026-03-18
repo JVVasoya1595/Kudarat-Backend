@@ -156,7 +156,7 @@ const seedData = async () => {
                     address: 'OPP, MAHALAXMI DAIRY, VALAD, GUJARAT 382355.',
                     phone: '+91 85549 92350',
                     email: 'info@kudaratwaterpark.com',
-                    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3667.64366943634!2d72.6738541!3d23.18321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e87178876c16b%3A0xe5495033871fd14f!2sKudarat%20Water%20Park!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin'
+                    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.7300362742526!2d72.69260267432234!3d23.14354101180485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e819852da1257%3A0x6d71d34041366e31!2sKudarat%20Waterpark!5e0!3m2!1sen!2sin!4v1773832544322!5m2!1sen!2sin'
                 }
             }
         });
