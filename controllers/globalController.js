@@ -31,9 +31,9 @@ const getAllData = async (req, res) => {
                 tickets: tickets || null,
                 attractions: attractions || null,
                 contact: contact || null,
-                faq: faq || null,
-                safety: safety || null,
-                gallery: gallery || null
+                faq: faq ? { _id: faq._id, title: faq.title, subtitle: faq.subtitle, faqs: faq.faqs, cta: faq.cta, createdAt: faq.createdAt, updatedAt: faq.updatedAt } : null,
+                safety: safety ? { _id: safety._id, title: safety.title, subtitle: safety.subtitle, reminder: safety.reminder, rules: safety.rules, cta: safety.cta, createdAt: safety.createdAt, updatedAt: safety.updatedAt } : null,
+                gallery: gallery ? { _id: gallery._id, title: gallery.title, subtitle: gallery.subtitle, categories: gallery.categories, video: gallery.video, createdAt: gallery.createdAt, updatedAt: gallery.updatedAt } : null
             }
         });
     } catch (error) {

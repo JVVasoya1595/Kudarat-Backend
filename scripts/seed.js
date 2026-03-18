@@ -437,7 +437,13 @@ const seedData = async () => {
                         '/gallery/amusement-park/img3.jpg',
                         '/gallery/amusement-park/img4.jpg',
                         '/gallery/amusement-park/img5.jpg',
-                        '/gallery/amusement-park/img6.jpg'
+                        '/gallery/amusement-park/img6.jpg',
+                        '/gallery/amusement-park/img7.jpg',
+                        '/gallery/amusement-park/img8.jpg',
+                        '/gallery/amusement-park/img9.jpg',
+                        '/gallery/amusement-park/img10.jpg',
+                        '/gallery/amusement-park/img11.jpg',
+                        '/gallery/amusement-park/img12.jpg'
                     ]
                 },
                 {
@@ -449,7 +455,13 @@ const seedData = async () => {
                         '/gallery/big-splash/img3.jpg',
                         '/gallery/big-splash/img4.jpg',
                         '/gallery/big-splash/img5.jpg',
-                        '/gallery/big-splash/img6.jpg'
+                        '/gallery/big-splash/img6.jpg',
+                        '/gallery/big-splash/img7.jpg',
+                        '/gallery/big-splash/img8.jpg',
+                        '/gallery/big-splash/img9.jpg',
+                        '/gallery/big-splash/img10.jpg',
+                        '/gallery/big-splash/img11.jpg',
+                        '/gallery/big-splash/img12.jpg'
                     ]
                 },
                 {
@@ -461,7 +473,13 @@ const seedData = async () => {
                         '/gallery/facilities/img3.jpg',
                         '/gallery/facilities/img4.jpg',
                         '/gallery/facilities/img5.jpg',
-                        '/gallery/facilities/img6.jpg'
+                        '/gallery/facilities/img6.jpg',
+                        '/gallery/facilities/img7.jpg',
+                        '/gallery/facilities/img8.jpg',
+                        '/gallery/facilities/img9.jpg',
+                        '/gallery/facilities/img10.jpg',
+                        '/gallery/facilities/img11.jpg',
+                        '/gallery/facilities/img12.jpg'
                     ]
                 }
             ],
