@@ -41,6 +41,18 @@ const getFaqSubtitle = gen('subtitle');
 const getFaqItems = gen('faqs');
 const getFaqCta = gen('cta');
 
+const addFaqHeader = async (req, res) => {
+    try {
+        let doc = await FaqPage.findOne();
+        if (!doc) doc = new FaqPage();
+        const { title, subtitle } = req.body;
+        doc.title = title || '';
+        doc.subtitle = subtitle || '';
+        await doc.save();
+        res.status(201).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header added/overwritten' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateFaqHeader = async (req, res) => {
     try {
         let doc = await FaqPage.findOne();
@@ -50,6 +62,34 @@ const updateFaqHeader = async (req, res) => {
         if (subtitle !== undefined && subtitle !== null) doc.subtitle = subtitle;
         await doc.save();
         res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header updated' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const deleteFaqHeader = async (req, res) => {
+    try {
+        let doc = await FaqPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        const { title, subtitle } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
+        if (Object.keys(req.body).length === 0) {
+            doc.title = ''; doc.subtitle = '';
+        } else {
+            if (title === true || fields.includes('title')) doc.title = '';
+            if (subtitle === true || fields.includes('subtitle')) doc.subtitle = '';
+        }
+        await doc.save();
+        res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addFaqItems = async (req, res) => {
+    try {
+        let doc = await FaqPage.findOne();
+        if (!doc) doc = new FaqPage();
+        const { faqs } = req.body;
+        doc.faqs = faqs ? (Array.isArray(faqs) ? faqs : [faqs]) : [];
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.faqs, message: 'FAQs added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -88,6 +128,17 @@ const deleteFaqItems = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const addFaqCta = async (req, res) => {
+    try {
+        let doc = await FaqPage.findOne();
+        if (!doc) doc = new FaqPage();
+        const { buttonLabel, url } = req.body;
+        doc.cta = { buttonLabel: buttonLabel || '', url: url || '' };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.cta, message: 'CTA added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateFaqCta = async (req, res) => {
     try {
         let doc = await FaqPage.findOne();
@@ -100,14 +151,30 @@ const updateFaqCta = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const deleteFaqCta = async (req, res) => {
+    try {
+        let doc = await FaqPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        const { buttonLabel, url } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
+        if (Object.keys(req.body).length === 0) {
+            doc.cta = { buttonLabel: '', url: '' };
+        } else {
+            if (buttonLabel === true || fields.includes('buttonLabel')) doc.cta.buttonLabel = '';
+            if (url === true || fields.includes('url')) doc.cta.url = '';
+        }
+        await doc.save();
+        res.status(200).json({ success: true, data: doc.cta, message: 'CTA deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 module.exports = {
     getFaq,
     getFaqTitle,
     getFaqSubtitle,
     getFaqItems,
     getFaqCta,
-    updateFaqHeader,
-    updateFaqItems,
-    deleteFaqItems,
-    updateFaqCta
+    addFaqHeader, updateFaqHeader, deleteFaqHeader,
+    addFaqItems, updateFaqItems, deleteFaqItems,
+    addFaqCta, updateFaqCta, deleteFaqCta
 };

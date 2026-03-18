@@ -41,6 +41,18 @@ const getGallerySubtitle = gen('subtitle');
 const getGalleryCategories = gen('categories');
 const getGalleryVideo = gen('video');
 
+const addGalleryHeader = async (req, res) => {
+    try {
+        let doc = await GalleryPage.findOne();
+        if (!doc) doc = new GalleryPage();
+        const { title, subtitle } = req.body;
+        doc.title = title || '';
+        doc.subtitle = subtitle || '';
+        await doc.save();
+        res.status(201).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateGalleryHeader = async (req, res) => {
     try {
         let doc = await GalleryPage.findOne();
@@ -50,6 +62,34 @@ const updateGalleryHeader = async (req, res) => {
         if (subtitle !== undefined && subtitle !== null) doc.subtitle = subtitle;
         await doc.save();
         res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header updated' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const deleteGalleryHeader = async (req, res) => {
+    try {
+        let doc = await GalleryPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        const { title, subtitle } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
+        if (Object.keys(req.body).length === 0) {
+            doc.title = ''; doc.subtitle = '';
+        } else {
+            if (title === true || fields.includes('title')) doc.title = '';
+            if (subtitle === true || fields.includes('subtitle')) doc.subtitle = '';
+        }
+        await doc.save();
+        res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header deleted' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addGalleryCategories = async (req, res) => {
+    try {
+        let doc = await GalleryPage.findOne();
+        if (!doc) doc = new GalleryPage();
+        const { categories } = req.body;
+        doc.categories = categories ? (Array.isArray(categories) ? categories : [categories]) : [];
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.categories, message: 'Categories added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -90,6 +130,17 @@ const deleteGalleryCategories = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const addGalleryVideo = async (req, res) => {
+    try {
+        let doc = await GalleryPage.findOne();
+        if (!doc) doc = new GalleryPage();
+        const { title, url, placeholder } = req.body;
+        doc.video = { title: title || '', url: url || '', placeholder: placeholder || '' };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.video, message: 'Video section added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateGalleryVideo = async (req, res) => {
     try {
         let doc = await GalleryPage.findOne();
@@ -127,7 +178,7 @@ module.exports = {
     getGallerySubtitle,
     getGalleryCategories,
     getGalleryVideo,
-    updateGalleryHeader,
-    updateGalleryCategories, deleteGalleryCategories,
-    updateGalleryVideo, deleteGalleryVideo
+    addGalleryHeader, updateGalleryHeader, deleteGalleryHeader,
+    addGalleryCategories, updateGalleryCategories, deleteGalleryCategories,
+    addGalleryVideo, updateGalleryVideo, deleteGalleryVideo
 };

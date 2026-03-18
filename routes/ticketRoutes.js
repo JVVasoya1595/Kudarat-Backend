@@ -1,9 +1,9 @@
 const express = require('express');
 const {
     getTicketPageData,
-    getTicketHero, getTicketHeroText, updateTicketHero, deleteTicketHero,
+    getTicketHero, getTicketHeroText, addTicketHero, updateTicketHero, deleteTicketHero,
     getTicketForm, getTicketFormTitle, getTicketFormFields, getTicketFormSummary, getTicketFormButton,
-    updateTicketForm, deleteTicketForm,
+    addTicketForm, updateTicketForm, deleteTicketForm,
     createBooking
 } = require('../controllers/ticketController');
 const router = express.Router();
@@ -11,11 +11,13 @@ const router = express.Router();
 router.get('/', getTicketPageData);
 
 router.get('/hero', getTicketHero);
+router.post('/hero/add', addTicketHero);
 router.put('/hero/update', updateTicketHero);
 router.delete('/hero/delete', deleteTicketHero);
 router.get('/hero/text', getTicketHeroText);
 
 router.get('/form', getTicketForm);
+router.post('/form/add', addTicketForm);
 router.put('/form/update', updateTicketForm);
 router.delete('/form/delete', deleteTicketForm);
 router.get('/form/title', getTicketFormTitle);

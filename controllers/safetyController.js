@@ -25,6 +25,18 @@ const getSafetyRules = gen('rules');
 const getSafetyRulesList = gen('rules.list');
 const getSafetyCta = gen('cta');
 
+const addSafetyHeader = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) doc = new SafetyPage();
+        const { title, subtitle } = req.body;
+        doc.title = title || '';
+        doc.subtitle = subtitle || '';
+        await doc.save();
+        res.status(201).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header added/overwritten' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateSafetyHeader = async (req, res) => {
     try {
         let doc = await SafetyPage.findOne();
@@ -34,6 +46,34 @@ const updateSafetyHeader = async (req, res) => {
         if (subtitle !== undefined && subtitle !== null) doc.subtitle = subtitle;
         await doc.save();
         res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header updated' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const deleteSafetyHeader = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        const { title, subtitle } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
+        if (Object.keys(req.body).length === 0) {
+            doc.title = ''; doc.subtitle = '';
+        } else {
+            if (title === true || fields.includes('title')) doc.title = '';
+            if (subtitle === true || fields.includes('subtitle')) doc.subtitle = '';
+        }
+        await doc.save();
+        res.status(200).json({ success: true, data: { title: doc.title, subtitle: doc.subtitle }, message: 'Header deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addSafetyReminder = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) doc = new SafetyPage();
+        const { heading, description } = req.body;
+        doc.reminder = { heading: heading || '', description: description || '' };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.reminder, message: 'Reminder added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -64,6 +104,20 @@ const deleteSafetyReminder = async (req, res) => {
         await doc.save();
         // Respond
         res.status(200).json({ success: true, data: doc.reminder, message: 'Reminder deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addSafetyRules = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) doc = new SafetyPage();
+        const { title, list } = req.body;
+        doc.rules = {
+            title: title || '',
+            list: list ? (Array.isArray(list) ? list : [list]) : []
+        };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.rules, message: 'Rules added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -108,6 +162,17 @@ const deleteSafetyRules = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const addSafetyCta = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) doc = new SafetyPage();
+        const { buttonLabel, url } = req.body;
+        doc.cta = { buttonLabel: buttonLabel || '', url: url || '' };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.cta, message: 'CTA added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateSafetyCta = async (req, res) => {
     try {
         let doc = await SafetyPage.findOne();
@@ -120,6 +185,23 @@ const updateSafetyCta = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const deleteSafetyCta = async (req, res) => {
+    try {
+        let doc = await SafetyPage.findOne();
+        if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
+        const { buttonLabel, url } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
+        if (Object.keys(req.body).length === 0) {
+            doc.cta = { buttonLabel: '', url: '' };
+        } else {
+            if (buttonLabel === true || fields.includes('buttonLabel')) doc.cta.buttonLabel = '';
+            if (url === true || fields.includes('url')) doc.cta.url = '';
+        }
+        await doc.save();
+        res.status(200).json({ success: true, data: doc.cta, message: 'CTA deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 module.exports = {
     getSafety,
     getSafetyTitle,
@@ -128,8 +210,8 @@ module.exports = {
     getSafetyRules,
     getSafetyRulesList,
     getSafetyCta,
-    updateSafetyHeader,
-    updateSafetyReminder, deleteSafetyReminder,
-    updateSafetyRules, deleteSafetyRules,
-    updateSafetyCta
+    addSafetyHeader, updateSafetyHeader, deleteSafetyHeader,
+    addSafetyReminder, updateSafetyReminder, deleteSafetyReminder,
+    addSafetyRules, updateSafetyRules, deleteSafetyRules,
+    addSafetyCta, updateSafetyCta, deleteSafetyCta
 };

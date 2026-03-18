@@ -5,9 +5,9 @@ const {
     getGallerySubtitle,
     getGalleryCategories,
     getGalleryVideo,
-    updateGalleryHeader,
-    updateGalleryCategories, deleteGalleryCategories,
-    updateGalleryVideo, deleteGalleryVideo
+    addGalleryHeader, updateGalleryHeader, deleteGalleryHeader,
+    addGalleryCategories, updateGalleryCategories, deleteGalleryCategories,
+    addGalleryVideo, updateGalleryVideo, deleteGalleryVideo
 } = require('../controllers/galleryController');
 
 const router = express.Router();
@@ -15,13 +15,17 @@ const router = express.Router();
 router.get('/', getGallery);
 router.get('/title', getGalleryTitle);
 router.get('/subtitle', getGallerySubtitle);
+router.post('/header/add', addGalleryHeader);
 router.put('/header/update', updateGalleryHeader);
+router.delete('/header/delete', deleteGalleryHeader);
 
 router.get('/categories', getGalleryCategories);
+router.post('/categories/add', addGalleryCategories);
 router.put('/categories/update', updateGalleryCategories);
 router.delete('/categories/delete', deleteGalleryCategories);
 
 router.get('/video', getGalleryVideo);
+router.post('/video/add', addGalleryVideo);
 router.put('/video/update', updateGalleryVideo);
 router.delete('/video/delete', deleteGalleryVideo);
 

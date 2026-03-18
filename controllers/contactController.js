@@ -35,6 +35,17 @@ const getContactFormTitle = gen('messageForm.title');
 const getContactFormFields = gen('messageForm.fields');
 const getContactFormButton = gen('messageForm.buttonLabel');
 
+const addContactHero = async (req, res) => {
+    try {
+        let doc = await ContactPage.findOne();
+        if (!doc) doc = new ContactPage();
+        const { title, tagline } = req.body;
+        doc.hero = { text: { title: title || '', tagline: tagline || '' } };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.hero, message: 'Hero added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateContactHero = async (req, res) => {
     try {
         let doc = await ContactPage.findOne();
@@ -61,6 +72,24 @@ const deleteContactHero = async (req, res) => {
         }
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addContactInfo = async (req, res) => {
+    try {
+        let doc = await ContactPage.findOne();
+        if (!doc) doc = new ContactPage();
+        const { title, address, mapUrl, buttonLabel, phones, emails } = req.body;
+        doc.contactInfo = {
+            title: title || '',
+            phones: phones ? (Array.isArray(phones) ? phones : [phones]) : [],
+            emails: emails ? (Array.isArray(emails) ? emails : [emails]) : [],
+            address: address || '',
+            mapUrl: mapUrl || '',
+            buttonLabel: buttonLabel || ''
+        };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.contactInfo, message: 'Contact info added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -126,6 +155,21 @@ const deleteContactInfo = async (req, res) => {
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
+const addContactForm = async (req, res) => {
+    try {
+        let doc = await ContactPage.findOne();
+        if (!doc) doc = new ContactPage();
+        const { title, buttonLabel, fields } = req.body;
+        doc.messageForm = {
+            title: title || '',
+            buttonLabel: buttonLabel || '',
+            fields: fields || { name: {label:'', placeholder:''}, email: {label:'', placeholder:''}, message: {label:'', placeholder:''} }
+        };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.messageForm, message: 'Form added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateContactForm = async (req, res) => {
     try {
         let doc = await ContactPage.findOne();
@@ -187,8 +231,8 @@ const createInquiry = async (req, res) => {
 
 module.exports = {
     getContactPage,
-    getContactHero, getContactHeroText, updateContactHero, deleteContactHero,
-    getContactInfo, getContactInfoTitle, getContactInfoPhones, getContactInfoEmails, getContactInfoAddress, getContactInfoMap, getContactInfoButton, updateContactInfo, deleteContactInfo,
-    getContactForm, getContactFormTitle, getContactFormFields, getContactFormButton, updateContactForm, deleteContactForm,
+    getContactHero, getContactHeroText, addContactHero, updateContactHero, deleteContactHero,
+    getContactInfo, getContactInfoTitle, getContactInfoPhones, getContactInfoEmails, getContactInfoAddress, getContactInfoMap, getContactInfoButton, addContactInfo, updateContactInfo, deleteContactInfo,
+    getContactForm, getContactFormTitle, getContactFormFields, getContactFormButton, addContactForm, updateContactForm, deleteContactForm,
     createInquiry
 };

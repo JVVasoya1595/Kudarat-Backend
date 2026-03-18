@@ -28,6 +28,17 @@ const getTicketFormFields = gen('bookingForm.fields');
 const getTicketFormSummary = gen('bookingForm.summary');
 const getTicketFormButton = gen('bookingForm.submitButton');
 
+const addTicketHero = async (req, res) => {
+    try {
+        let doc = await TicketPage.findOne();
+        if (!doc) doc = new TicketPage();
+        const { title, tagline } = req.body;
+        doc.hero = { text: { title: title || '', tagline: tagline || '' } };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.hero, message: 'Hero added' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
 const updateTicketHero = async (req, res) => {
     try {
         let doc = await TicketPage.findOne();
@@ -54,6 +65,22 @@ const deleteTicketHero = async (req, res) => {
         }
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero deletion processed' });
+    } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+};
+
+const addTicketForm = async (req, res) => {
+    try {
+        let doc = await TicketPage.findOne();
+        if (!doc) doc = new TicketPage();
+        const { title, fields, summary, submitButton } = req.body;
+        doc.bookingForm = {
+            title: title || '',
+            fields: fields || { date: {label:''}, ticketType: {label:'', options:[]}, quantity: {label:''} },
+            summary: summary || {totalLabel:''},
+            submitButton: submitButton || {label:''}
+        };
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.bookingForm, message: 'Booking Form added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -148,8 +175,8 @@ const createBooking = async (req, res) => {
 
 module.exports = {
     getTicketPageData,
-    getTicketHero, getTicketHeroText, updateTicketHero, deleteTicketHero,
+    getTicketHero, getTicketHeroText, addTicketHero, updateTicketHero, deleteTicketHero,
     getTicketForm, getTicketFormTitle, getTicketFormFields, getTicketFormSummary, getTicketFormButton,
-    updateTicketForm, deleteTicketForm,
+    addTicketForm, updateTicketForm, deleteTicketForm,
     createBooking
 };

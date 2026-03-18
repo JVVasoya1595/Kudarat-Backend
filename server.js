@@ -42,6 +42,10 @@ app.use('/safety', safetyRoutes);
 app.use('/gallery', galleryRoutes);
 app.use('/all', globalRoutes);
 
+const uploadRoutes = require('./routes/uploadRoutes');
+app.use('/upload', uploadRoutes);
+app.use('/api/upload', uploadRoutes);
+
 app.get('/', (req, res) => {
     res.send('Kedrat Waterpark API is running...');
 });
