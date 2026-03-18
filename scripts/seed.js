@@ -5,6 +5,9 @@ const About = require('../models/About');
 const TicketPage = require('../models/TicketPage');
 const Attraction = require('../models/Attraction');
 const ContactPage = require('../models/ContactPage');
+const FaqPage = require('../models/FaqPage');
+const SafetyPage = require('../models/SafetyPage');
+const GalleryPage = require('../models/GalleryPage');
 
 dotenv.config();
 
@@ -358,7 +361,118 @@ const seedData = async () => {
             }
         });
 
-        console.log('All Global Data Seeded Successfully (Home, About, Tickets, Attractions, Contact)');
+        // --- SEED FAQ ---
+        await FaqPage.deleteMany();
+        await FaqPage.create({
+            title: 'FAQ',
+            subtitle: 'Frequently asked questions',
+            faqs: [
+                {
+                    question: 'Can we get non-veg food?',
+                    answer: 'No, We serve only PURE VEGETARIAN FOOD.'
+                },
+                {
+                    question: 'Is parking available at park?',
+                    answer: 'Limited Free Parking are available on FIRST-COME-FIRST Basis.'
+                },
+                {
+                    question: 'Are outside food allowed inside the park?',
+                    answer: 'No, As we have inhouse delicious food arrangements within the ticket price.'
+                },
+                {
+                    question: 'What are the park timings?',
+                    answer: 'We are open from 10 AM to 6 PM, every day of the week.'
+                },
+                {
+                    question: 'Do you have locker facilities?',
+                    answer: 'Yes, lockers are available on a first-come-first-served basis for a nominal charge.'
+                }
+            ],
+            cta: {
+                buttonLabel: 'Contact Us',
+                url: '/contact'
+            }
+        });
+
+        // --- SEED SAFETY ---
+        await SafetyPage.deleteMany();
+        await SafetyPage.create({
+            title: 'SAFETY RULES',
+            subtitle: 'Safety First, Fun Always',
+            reminder: {
+                heading: '🦭 Friendly reminder',
+                description: 'Our mascot wants everyone to have a safe, splash-tastic day!'
+            },
+            rules: {
+                title: 'Park Rules',
+                list: [
+                    'Follow all posted height and age restrictions on rides.',
+                    'No running on wet surfaces or pool decks.',
+                    'Children must be supervised by an adult at all times.',
+                    'Proper swimwear is required. No street clothes in pools.',
+                    'Outside food and beverages may not be allowed (check park policy).',
+                    'Lockers are available for valuables — use them.',
+                    'Report any injury or unsafe condition to staff immediately.',
+                    'No diving in shallow areas. Follow lifeguard instructions.'
+                ]
+            },
+            cta: {
+                buttonLabel: 'CONTACT US',
+                url: '/contact'
+            }
+        });
+
+        // --- SEED GALLERY ---
+        await GalleryPage.deleteMany();
+        await GalleryPage.create({
+            title: 'OUR GALLERY',
+            subtitle: 'Our Gallery — where every image tells a story of fun, splash, and unforgettable moments.',
+            categories: [
+                {
+                    label: 'Amusement Park',
+                    value: 'amusement-park',
+                    images: [
+                        '/gallery/amusement-park/img1.jpg',
+                        '/gallery/amusement-park/img2.jpg',
+                        '/gallery/amusement-park/img3.jpg',
+                        '/gallery/amusement-park/img4.jpg',
+                        '/gallery/amusement-park/img5.jpg',
+                        '/gallery/amusement-park/img6.jpg'
+                    ]
+                },
+                {
+                    label: 'Big Splash',
+                    value: 'big-splash',
+                    images: [
+                        '/gallery/big-splash/img1.jpg',
+                        '/gallery/big-splash/img2.jpg',
+                        '/gallery/big-splash/img3.jpg',
+                        '/gallery/big-splash/img4.jpg',
+                        '/gallery/big-splash/img5.jpg',
+                        '/gallery/big-splash/img6.jpg'
+                    ]
+                },
+                {
+                    label: 'Facilities',
+                    value: 'facilities',
+                    images: [
+                        '/gallery/facilities/img1.jpg',
+                        '/gallery/facilities/img2.jpg',
+                        '/gallery/facilities/img3.jpg',
+                        '/gallery/facilities/img4.jpg',
+                        '/gallery/facilities/img5.jpg',
+                        '/gallery/facilities/img6.jpg'
+                    ]
+                }
+            ],
+            video: {
+                title: 'Gallery Video',
+                url: '',
+                placeholder: 'Video placeholder — Watch Now'
+            }
+        });
+
+        console.log('All Global Data Seeded Successfully (Home, About, Tickets, Attractions, Contact, FAQ, Safety, Gallery)');
         process.exit();
     } catch (error) {
         console.error(`Error: ${error.message}`);

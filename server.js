@@ -24,6 +24,9 @@ const aboutRoutes = require('./routes/aboutRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const attractionsRoutes = require('./routes/attractionsRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const faqRoutes = require('./routes/faqRoutes');
+const safetyRoutes = require('./routes/safetyRoutes');
+const galleryRoutes = require('./routes/galleryRoutes');
 const globalRoutes = require('./routes/globalRoutes');
 
 // Mount routers
@@ -33,6 +36,9 @@ app.use('/about', aboutRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/attractions', attractionsRoutes);
 app.use('/contact', contactRoutes);
+app.use('/faq', faqRoutes);
+app.use('/safety', safetyRoutes);
+app.use('/gallery', galleryRoutes);
 app.use('/all', globalRoutes);
 
 app.get('/', (req, res) => {
