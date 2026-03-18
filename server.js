@@ -41,6 +41,7 @@ app.use('/faq', faqRoutes);
 app.use('/safety', safetyRoutes);
 app.use('/gallery', galleryRoutes);
 app.use('/all', globalRoutes);
+app.use('/api/auth', require('./routes/authRoutes'));
 
 const uploadRoutes = require('./routes/uploadRoutes');
 app.use('/upload', uploadRoutes);
