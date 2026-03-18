@@ -213,18 +213,6 @@ const seedData = async () => {
             bookingForm: {
                 title: 'SELECT YOUR TICKETS',
                 fields: {
-                    name: {
-                        label: 'Full Name',
-                        placeholder: 'Enter your name'
-                    },
-                    email: {
-                        label: 'Email Address',
-                        placeholder: 'Enter your email'
-                    },
-                    phone: {
-                        label: 'Phone Number',
-                        placeholder: 'Enter your phone number'
-                    },
                     date: {
                         label: 'Select Date'
                     },
@@ -249,7 +237,6 @@ const seedData = async () => {
                     }
                 },
                 summary: {
-                    priceLabel: 'Price per ticket',
                     totalLabel: 'TOTAL'
                 },
                 submitButton: {

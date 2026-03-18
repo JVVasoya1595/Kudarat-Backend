@@ -10,18 +10,6 @@ const ticketPageSchema = new mongoose.Schema({
     bookingForm: {
         title: { type: String, default: 'SELECT YOUR TICKETS' },
         fields: {
-            name: {
-                label: { type: String, default: 'Full Name' },
-                placeholder: { type: String, default: 'Enter your name' }
-            },
-            email: {
-                label: { type: String, default: 'Email Address' },
-                placeholder: { type: String, default: 'Enter your email' }
-            },
-            phone: {
-                label: { type: String, default: 'Phone Number' },
-                placeholder: { type: String, default: 'Enter your phone number' }
-            },
             date: {
                 label: { type: String, default: 'Select Date' }
             },
@@ -39,7 +27,6 @@ const ticketPageSchema = new mongoose.Schema({
             }
         },
         summary: {
-            priceLabel: { type: String, default: 'Price per ticket' },
             totalLabel: { type: String, default: 'TOTAL' }
         },
         submitButton: {
