@@ -9,7 +9,7 @@ const IMAGE_URL_FIELDS = new Set([
 
 const looksLikeImagePath = (value) => {
     if (typeof value !== 'string' || value.trim() === '') return false;
-    const imageExtensions = /\.(png|jpe?g|gif|webp|svg|avif|bmp|ico|tiff?|mp4|webm|mov|m4v)(\?.*)?$/i;
+    const imageExtensions = /\.(png|jpe?g|gif|webp|svg|avif|bmp|ico|tiff?|mp4|webm|mov|m4v|enc)(\?.*)?$/i;
     const isAbsoluteUrl = value.startsWith('http://') || value.startsWith('https://');
     const isRelativePath = value.startsWith('/') || value.startsWith('./') || value.startsWith('../');
     return (isAbsoluteUrl || isRelativePath) && imageExtensions.test(value);
