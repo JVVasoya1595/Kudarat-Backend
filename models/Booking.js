@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
-    date: { type: Date, required: true },
-    ticketType: { type: String, enum: ['Adult', 'Child'], required: true },
-    quantity: { type: Number, required: true, min: 1 },
-    totalAmount: { type: Number, required: true },
+    date: { type: Date },
+    ticketType: { type: String, enum: ['Adult', 'Child'], default: 'Adult' },
+    quantity: { type: Number, default: 1, min: 1 },
+    totalAmount: { type: Number, default: 0 },
     status: { type: String, default: 'pending', enum: ['pending', 'confirmed', 'cancelled'] }
 }, { timestamps: true });
 
