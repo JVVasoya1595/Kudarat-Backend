@@ -18,6 +18,6 @@ router.get('/form/fields', getTicketFormFields);
 router.get('/form/summary', getTicketFormSummary);
 router.get('/form/button', getTicketFormButton);
 
-router.post('/book', createBooking);
+router.post('/bookings', createBooking);
 
 module.exports = router;
