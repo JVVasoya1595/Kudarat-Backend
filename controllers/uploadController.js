@@ -27,16 +27,17 @@ const uploadParams = multer({ storage });
 
 const uploadFile = async (req, res) => {
     try {
-        if (!req.file) {
+        const file = req.files && req.files.length > 0 ? req.files[0] : req.file;
+        if (!file) {
             return res.status(400).json({ success: false, error: 'No file uploaded' });
         }
 
-        const tempPath = req.file.path;
+        const tempPath = file.path;
         
         // Define the final encrypted path
         // For example: image-12345.jpg.enc
-        const finalFilename = req.file.filename.replace('-temp', '') + '.enc';
-        const finalPath = path.join(req.file.destination, finalFilename);
+        const finalFilename = file.filename.replace('-temp', '') + '.enc';
+        const finalPath = path.join(file.destination, finalFilename);
 
         // Encrypt the file
         const iv = crypto.randomBytes(16);
