@@ -5,7 +5,8 @@ const attractionSchema = new mongoose.Schema({
         text: {
             title: { type: String, default: 'RIDES & ATTRACTIONS' },
             tagline: { type: String, default: 'Discover our rides and stay safe with our guidelines.' }
-        }
+        },
+        backgroundUrl: { type: String }
     },
     rideDetails: {
         text: {

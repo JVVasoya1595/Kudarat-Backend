@@ -32,8 +32,8 @@ const addTicketHero = async (req, res) => {
     try {
         let doc = await TicketPage.findOne();
         if (!doc) doc = new TicketPage();
-        const { title, tagline } = req.body;
-        doc.hero = { text: { title: title || '', tagline: tagline || '' } };
+        const { title, tagline, backgroundUrl } = req.body;
+        doc.hero = { text: { title: title || '', tagline: tagline || '' }, backgroundUrl: backgroundUrl || '' };
         await doc.save();
         res.status(201).json({ success: true, data: doc.hero, message: 'Hero added' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
@@ -43,9 +43,10 @@ const updateTicketHero = async (req, res) => {
     try {
         let doc = await TicketPage.findOne();
         if (!doc) doc = new TicketPage();
-        const { title, tagline } = req.body;
+        const { title, tagline, backgroundUrl } = req.body;
         if (title !== undefined && title !== null) doc.hero.text.title = title;
         if (tagline !== undefined && tagline !== null) doc.hero.text.tagline = tagline;
+        if (backgroundUrl !== undefined && backgroundUrl !== null) doc.hero.backgroundUrl = backgroundUrl;
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero updated' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
@@ -55,13 +56,14 @@ const deleteTicketHero = async (req, res) => {
     try {
         let doc = await TicketPage.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, tagline } = req.body;
+        const { title, tagline, backgroundUrl } = req.body;
         const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
         if (Object.keys(req.body).length === 0) {
-            doc.hero = { text: { title: '', tagline: '' } };
+            doc.hero = { text: { title: '', tagline: '' }, backgroundUrl: '' };
         } else {
             if (title === true || fields.includes('title')) doc.hero.text.title = '';
             if (tagline === true || fields.includes('tagline')) doc.hero.text.tagline = '';
+            if (backgroundUrl === true || fields.includes('backgroundUrl')) doc.hero.backgroundUrl = '';
         }
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero deletion processed' });

@@ -21,7 +21,8 @@ const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
         if (!obj.startsWith('http')) {
             fullUrl = `${baseUrl}${obj.startsWith('/') ? '' : '/'}${obj}`;
         }
-        return encryptImageUrl(fullUrl);
+        const token = encryptImageUrl(fullUrl);
+        return `${baseUrl}/img/${token}`;
     }
 
     if (Array.isArray(obj)) {
@@ -37,7 +38,8 @@ const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
                     if (!value.startsWith('http')) {
                         fullUrl = `${baseUrl}${value.startsWith('/') ? '' : '/'}${value}`;
                     }
-                    result[key] = encryptImageUrl(fullUrl);
+                    const token = encryptImageUrl(fullUrl);
+                    result[key] = `${baseUrl}/img/${token}`;
                     continue;
                 } else if (Array.isArray(value)) {
                     result[key] = value.map((item) => {
@@ -46,7 +48,8 @@ const encryptImagesInObject = (obj, frontendOrigin, baseUrl) => {
                             if (!item.startsWith('http')) {
                                 fullUrl = `${baseUrl}${item.startsWith('/') ? '' : '/'}${item}`;
                             }
-                            return encryptImageUrl(fullUrl);
+                            const token = encryptImageUrl(fullUrl);
+                            return `${baseUrl}/img/${token}`;
                         }
                         return encryptImagesInObject(item, frontendOrigin, baseUrl);
                     });
