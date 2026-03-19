@@ -42,11 +42,12 @@ const updateAttractionsHero = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, tagline, backgroundUrl } = req.body;
+        const { title, tagline, backgroundUrl, image, imageUrl } = req.body;
+        const bg = backgroundUrl || image || imageUrl;
 
         if (title !== undefined && title !== null) doc.hero.text.title = title;
         if (tagline !== undefined && tagline !== null) doc.hero.text.tagline = tagline;
-        if (backgroundUrl !== undefined && backgroundUrl !== null) doc.hero.backgroundUrl = backgroundUrl;
+        if (bg !== undefined && bg !== null) doc.hero.backgroundUrl = bg;
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero section updated successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
@@ -83,9 +84,21 @@ const addAttractionsDetails = async (req, res) => {
         let doc = await Attraction.findOne();
         if (!doc) doc = new Attraction();
         const { title, description, list } = req.body;
+
+        const normalizeItem = (item) => ({
+            title: item.title || '',
+            category: item.category || '',
+            description: item.description || '',
+            imageUrl: item.imageUrl || item.image || '',
+            requirements: {
+                height: (item.requirements && item.requirements.height) || '',
+                age: (item.requirements && item.requirements.age) || ''
+            }
+        });
+
         doc.rideDetails = {
             text: { title: title || '', description: description || '' },
-            list: list ? (Array.isArray(list) ? list : [list]) : []
+            list: list ? (Array.isArray(list) ? list.map(normalizeItem) : [normalizeItem(list)]) : []
         };
         await doc.save();
         res.status(201).json({ success: true, data: doc.rideDetails, message: 'Ride details section added successfully' });
@@ -99,21 +112,38 @@ const updateAttractionsDetails = async (req, res) => {
         const { title, description, list, index } = req.body;
         if (title !== undefined && title !== null) doc.rideDetails.text.title = title;
         if (description !== undefined && description !== null) doc.rideDetails.text.description = description;
+        
         if (list !== undefined && list !== null) {
-            if (index !== undefined && typeof index === 'number') {
-                if (index >= 0 && index < doc.rideDetails.list.length) {
-                    const currentItem = doc.rideDetails.list[index];
-                    if (list.title !== undefined) currentItem.title = list.title;
-                    if (list.category !== undefined) currentItem.category = list.category;
-                    if (list.description !== undefined) currentItem.description = list.description;
-                    if (list.imageUrl !== undefined) currentItem.imageUrl = list.imageUrl;
-                    if (list.requirements !== undefined) {
-                        if (list.requirements.height !== undefined) currentItem.requirements.height = list.requirements.height;
-                        if (list.requirements.age !== undefined) currentItem.requirements.age = list.requirements.age;
+            const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
+            
+            const normalizeItem = (item) => ({
+                title: item.title || '',
+                category: item.category || '',
+                description: item.description || '',
+                imageUrl: item.imageUrl || item.image || '',
+                requirements: {
+                    height: (item.requirements && item.requirements.height) || '',
+                    age: (item.requirements && item.requirements.age) || ''
+                }
+            });
+
+            if (idx !== undefined && !isNaN(idx)) {
+                if (idx >= 0 && idx < doc.rideDetails.list.length) {
+                    const currentItem = doc.rideDetails.list[idx];
+                    const normalized = normalizeItem(list);
+                    if (normalized.title !== undefined) currentItem.title = normalized.title;
+                    if (normalized.category !== undefined) currentItem.category = normalized.category;
+                    if (normalized.description !== undefined) currentItem.description = normalized.description;
+                    if (normalized.imageUrl !== undefined) currentItem.imageUrl = normalized.imageUrl;
+                    if (normalized.requirements !== undefined) {
+                        if (normalized.requirements.height !== undefined) currentItem.requirements.height = normalized.requirements.height;
+                        if (normalized.requirements.age !== undefined) currentItem.requirements.age = normalized.requirements.age;
                     }
+                } else if (idx === doc.rideDetails.list.length || idx === -1) {
+                    doc.rideDetails.list.push(normalizeItem(list));
                 }
             } else {
-                doc.rideDetails.list = Array.isArray(list) ? list : [list];
+                doc.rideDetails.list = Array.isArray(list) ? list.map(normalizeItem) : [normalizeItem(list)];
             }
         }
         await doc.save();

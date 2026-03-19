@@ -7,19 +7,20 @@ const {
     getAttractionsCta, getAttractionsCtaButton, getAttractionsCtaUrl, addAttractionsCta, updateAttractionsCta, deleteAttractionsCta
 } = require('../controllers/attractionsController');
 
+const { upload } = require('../controllers/uploadController');
 const router = express.Router();
 
 router.get('/', getAttractionsPage);
 
 router.get('/hero', getAttractionsHero);
-router.post('/hero/add', addAttractionsHero);
-router.put('/hero/update', updateAttractionsHero);
+router.post('/hero/add', upload.any(), addAttractionsHero);
+router.put('/hero/update', upload.any(), updateAttractionsHero);
 router.delete('/hero/delete', deleteAttractionsHero);
 router.get('/hero/text', getAttractionsHeroText);
 
 router.get('/details', getAttractionsDetails);
-router.post('/details/add', addAttractionsDetails);
-router.put('/details/update', updateAttractionsDetails);
+router.post('/details/add', upload.any(), addAttractionsDetails);
+router.put('/details/update', upload.any(), updateAttractionsDetails);
 router.delete('/details/delete', deleteAttractionsDetails);
 router.get('/details/text', getAttractionsDetailsText);
 router.get('/list', getAttractionsList); // Preserve old list route

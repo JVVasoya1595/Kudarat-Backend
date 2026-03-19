@@ -63,16 +63,20 @@ const updateHero = async (req, res) => {
         let home = await Home.findOne();
         if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
 
-        const { background, title, subtitle, description, index } = req.body;
+        const { background, image, imageUrl, title, subtitle, description, index } = req.body;
+        const bg = background || image || imageUrl;
 
         // If field is provided and not null, update it. Otherwise keep existing.
-        if (background !== undefined && background !== null) {
-            if (index !== undefined && typeof index === 'number') {
-                if (index >= 0 && index < home.hero.background.length) {
-                    home.hero.background[index] = background;
+        if (bg !== undefined && bg !== null) {
+            const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
+            if (idx !== undefined && !isNaN(idx)) {
+                if (idx >= 0 && idx < home.hero.background.length) {
+                    home.hero.background[idx] = bg;
+                } else if (idx === home.hero.background.length || idx === -1) {
+                    home.hero.background.push(bg);
                 }
             } else {
-                home.hero.background = Array.isArray(background) ? background : [background];
+                home.hero.background = Array.isArray(bg) ? bg : [bg];
             }
         }
         if (title !== undefined && title !== null) home.hero.text.title = title;
@@ -140,13 +144,19 @@ const addFacilities = async (req, res) => {
 
         const { tagline, title, subtitle, cards } = req.body;
 
+        const normalizeCard = (c) => ({
+            imageUrl: c.imageUrl || c.image || '',
+            title: c.title || '',
+            description: c.description || ''
+        });
+
         home.premiumFacilities = {
             text: {
                 tagline: tagline || '',
                 title: title || '',
                 subtitle: subtitle || ''
             },
-            cards: cards ? (Array.isArray(cards) ? cards : [cards]) : []
+            cards: cards ? (Array.isArray(cards) ? cards.map(normalizeCard) : [normalizeCard(cards)]) : []
         };
 
         await home.save();
@@ -169,15 +179,28 @@ const updateFacilities = async (req, res) => {
         if (subtitle !== undefined && subtitle !== null) home.premiumFacilities.text.subtitle = subtitle;
         
         if (cards !== undefined && cards !== null) {
-            if (index !== undefined && typeof index === 'number') {
-                if (index >= 0 && index < home.premiumFacilities.cards.length) {
-                    const currentCard = home.premiumFacilities.cards[index];
-                    if (cards.imageUrl !== undefined) currentCard.imageUrl = cards.imageUrl;
-                    if (cards.title !== undefined) currentCard.title = cards.title;
-                    if (cards.description !== undefined) currentCard.description = cards.description;
+            const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
+            
+            const normalizeCard = (c) => ({
+                imageUrl: c.imageUrl || c.image || '',
+                title: c.title || '',
+                description: c.description || ''
+            });
+
+            if (idx !== undefined && !isNaN(idx)) {
+                if (idx >= 0 && idx < home.premiumFacilities.cards.length) {
+                    const currentCard = home.premiumFacilities.cards[idx];
+                    const normalized = normalizeCard(cards);
+                    if (normalized.imageUrl !== undefined) currentCard.imageUrl = normalized.imageUrl;
+                    if (normalized.title !== undefined) currentCard.title = normalized.title;
+                    if (normalized.description !== undefined) currentCard.description = normalized.description;
+                } else if (idx === home.premiumFacilities.cards.length || idx === -1) {
+                    home.premiumFacilities.cards.push(normalizeCard(cards));
                 }
             } else {
-                home.premiumFacilities.cards = Array.isArray(cards) ? cards : [cards];
+                home.premiumFacilities.cards = Array.isArray(cards) 
+                    ? cards.map(normalizeCard) 
+                    : [normalizeCard(cards)];
             }
         }
 
@@ -395,10 +418,11 @@ const addGallery = async (req, res) => {
     try {
         let home = await Home.findOne();
         if (!home) home = new Home();
-        const { tagline, images } = req.body;
+        const { tagline, images, image, imageUrl } = req.body;
+        const imgs = images || image || imageUrl;
         home.gallery = {
             text: { tagline: tagline || '' },
-            images: images ? (Array.isArray(images) ? images : [images]) : []
+            images: imgs ? (Array.isArray(imgs) ? imgs : [imgs]) : []
         };
         await home.save();
         res.status(201).json({ success: true, data: home.gallery, message: 'Gallery section added successfully' });
@@ -409,15 +433,21 @@ const updateGallery = async (req, res) => {
     try {
         let home = await Home.findOne();
         if (!home) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { tagline, images, index } = req.body;
+        const { tagline, images, image, imageUrl, index } = req.body;
+        const imgs = images || image || imageUrl;
 
         if (tagline !== undefined && tagline !== null) home.gallery.text.tagline = tagline;
         
-        if (images !== undefined && images !== null) {
-            if (index !== undefined && typeof index === 'number') {
-                if (index >= 0 && index < home.gallery.images.length) home.gallery.images[index] = images;
+        if (imgs !== undefined && imgs !== null) {
+            const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
+            if (idx !== undefined && !isNaN(idx)) {
+                if (idx >= 0 && idx < home.gallery.images.length) {
+                    home.gallery.images[idx] = imgs;
+                } else if (idx === home.gallery.images.length || idx === -1) {
+                    home.gallery.images.push(imgs);
+                }
             } else {
-                home.gallery.images = Array.isArray(images) ? images : [images];
+                home.gallery.images = Array.isArray(imgs) ? imgs : [imgs];
             }
         }
         await home.save();

@@ -13,21 +13,22 @@ const {
     getLocation, getLocationText, getLocationInfo,
     addLocation, updateLocation, deleteLocation
 } = require('../controllers/homeController');
+const { upload } = require('../controllers/uploadController');
 const router = express.Router();
 
 router.get('/', getHomePage);
 
 router.get('/hero', getHero);
-router.post('/hero/add', addHero);
-router.put('/hero/update', updateHero);
+router.post('/hero/add', upload.any(), addHero);
+router.put('/hero/update', upload.any(), updateHero);
 router.delete('/hero/delete', deleteHero);
 
 router.get('/hero/background', getHeroBackground);
 router.get('/hero/text', getHeroText);
 
 router.get('/facilities', getFacilities);
-router.post('/facilities/add', addFacilities);
-router.put('/facilities/update', updateFacilities);
+router.post('/facilities/add', upload.any(), addFacilities);
+router.put('/facilities/update', upload.any(), updateFacilities);
 router.delete('/facilities/delete', deleteFacilities);
 
 router.get('/facilities/text', getFacilitiesText);
@@ -51,8 +52,8 @@ router.get('/pricing/text', getPricingText);
 router.get('/pricing/cards', getPricingCards);
 
 router.get('/gallery', getGallery);
-router.post('/gallery/add', addGallery);
-router.put('/gallery/update', updateGallery);
+router.post('/gallery/add', upload.any(), addGallery);
+router.put('/gallery/update', upload.any(), updateGallery);
 router.delete('/gallery/delete', deleteGallery);
 
 router.get('/gallery/text', getGalleryText);

@@ -46,9 +46,13 @@ const updateAboutHero = async (req, res) => {
     try {
         let doc = await About.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'About data not seeded' });
-        const { tagline, title } = req.body;
+        const { tagline, title, backgroundUrl, image, imageUrl } = req.body;
+        const bg = backgroundUrl || image || imageUrl;
+
         if (tagline !== undefined && tagline !== null) doc.hero.text.tagline = tagline;
         if (title !== undefined && title !== null) doc.hero.text.title = title;
+        if (bg !== undefined && bg !== null) doc.hero.backgroundUrl = bg;
+
         await doc.save();
         res.status(200).json({ success: true, data: doc.hero, message: 'Hero section updated successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
