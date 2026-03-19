@@ -14,27 +14,27 @@ router.get('/', getAbout);
 router.get('/hero', getAboutHero);
 router.post('/hero/add', upload.any(), addAboutHero);
 router.put('/hero/update', upload.any(), updateAboutHero);
-router.delete('/hero/delete', deleteAboutHero);
+router.delete('/hero/delete', upload.any(), deleteAboutHero);
 router.get('/hero/text', getAboutHeroText);
 
 router.get('/story', getAboutStory);
-router.post('/story/add', addAboutStory);
-router.put('/story/update', updateAboutStory);
-router.delete('/story/delete', deleteAboutStory);
+router.post('/story/add', upload.any(), addAboutStory);
+router.put('/story/update', upload.any(), updateAboutStory);
+router.delete('/story/delete', upload.any(), deleteAboutStory);
 router.get('/story/title', getAboutStoryTitle);
 router.get('/story/description', getAboutStoryDescription);
 
 router.get('/features', getAboutFeatures);
-router.post('/features/add', addAboutFeatures);
-router.put('/features/update', updateAboutFeatures);
-router.delete('/features/delete', deleteAboutFeatures);
+router.post('/features/add', upload.any(), addAboutFeatures);
+router.put('/features/update', upload.any(), updateAboutFeatures);
+router.delete('/features/delete', upload.any(), deleteAboutFeatures);
 router.get('/features/title', getAboutFeaturesTitle);
 router.get('/features/cards', getAboutFeaturesCards);
 
 router.get('/support', getAboutSupport);
-router.post('/support/add', addAboutSupport);
-router.put('/support/update', updateAboutSupport);
-router.delete('/support/delete', deleteAboutSupport);
+router.post('/support/add', upload.any(), addAboutSupport);
+router.put('/support/update', upload.any(), updateAboutSupport);
+router.delete('/support/delete', upload.any(), deleteAboutSupport);
 router.get('/support/title', getAboutSupportTitle);
 router.get('/support/phone', getAboutSupportPhone);
 router.get('/support/email', getAboutSupportEmail);

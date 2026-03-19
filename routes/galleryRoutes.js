@@ -10,23 +10,24 @@ const {
     addGalleryVideo, updateGalleryVideo, deleteGalleryVideo
 } = require('../controllers/galleryController');
 
+const { upload } = require('../controllers/uploadController');
 const router = express.Router();
 
 router.get('/', getGallery);
 router.get('/title', getGalleryTitle);
 router.get('/subtitle', getGallerySubtitle);
-router.post('/header/add', addGalleryHeader);
-router.put('/header/update', updateGalleryHeader);
-router.delete('/header/delete', deleteGalleryHeader);
+router.post('/header/add', upload.any(), addGalleryHeader);
+router.put('/header/update', upload.any(), updateGalleryHeader);
+router.delete('/header/delete', upload.any(), deleteGalleryHeader);
 
 router.get('/categories', getGalleryCategories);
-router.post('/categories/add', addGalleryCategories);
-router.put('/categories/update', updateGalleryCategories);
-router.delete('/categories/delete', deleteGalleryCategories);
+router.post('/categories/add', upload.any(), addGalleryCategories);
+router.put('/categories/update', upload.any(), updateGalleryCategories);
+router.delete('/categories/delete', upload.any(), deleteGalleryCategories);
 
 router.get('/video', getGalleryVideo);
-router.post('/video/add', addGalleryVideo);
-router.put('/video/update', updateGalleryVideo);
-router.delete('/video/delete', deleteGalleryVideo);
+router.post('/video/add', upload.any(), addGalleryVideo);
+router.put('/video/update', upload.any(), updateGalleryVideo);
+router.delete('/video/delete', upload.any(), deleteGalleryVideo);
 
 module.exports = router;

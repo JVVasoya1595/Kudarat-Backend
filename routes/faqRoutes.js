@@ -10,23 +10,24 @@ const {
     addFaqCta, updateFaqCta, deleteFaqCta
 } = require('../controllers/faqController');
 
+const { upload } = require('../controllers/uploadController');
 const router = express.Router();
 
 router.get('/', getFaq);
 router.get('/title', getFaqTitle);
 router.get('/subtitle', getFaqSubtitle);
-router.post('/header/add', addFaqHeader);
-router.put('/header/update', updateFaqHeader);
-router.delete('/header/delete', deleteFaqHeader);
+router.post('/header/add', upload.any(), addFaqHeader);
+router.put('/header/update', upload.any(), updateFaqHeader);
+router.delete('/header/delete', upload.any(), deleteFaqHeader);
 
 router.get('/faqs', getFaqItems);
-router.post('/faqs/add', addFaqItems);
-router.put('/faqs/update', updateFaqItems);
-router.delete('/faqs/delete', deleteFaqItems);
+router.post('/faqs/add', upload.any(), addFaqItems);
+router.put('/faqs/update', upload.any(), updateFaqItems);
+router.delete('/faqs/delete', upload.any(), deleteFaqItems);
 
 router.get('/cta', getFaqCta);
-router.post('/cta/add', addFaqCta);
-router.put('/cta/update', updateFaqCta);
-router.delete('/cta/delete', deleteFaqCta);
+router.post('/cta/add', upload.any(), addFaqCta);
+router.put('/cta/update', upload.any(), updateFaqCta);
+router.delete('/cta/delete', upload.any(), deleteFaqCta);
 
 module.exports = router;

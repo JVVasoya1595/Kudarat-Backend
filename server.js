@@ -17,19 +17,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Admin panel uses FormData for API requests. express.json() / urlencoded() do not parse FormData.
-// So we must parse it manually for DELETE requests (without saving any files) before handlers.
-const multer = require('multer');
-const deleteUpload = multer().none();
-app.use((req, res, next) => {
-    if (req.method === 'DELETE') {
-        deleteUpload(req, res, (err) => next());
-    } else {
-        next();
-    }
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(normalizePayloadMiddleware);
 app.use(imageDecryptMiddleware);
