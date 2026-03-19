@@ -25,16 +25,15 @@ const addAttractionsHero = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) doc = new Attraction();
-        const { title, tagline, backgroundUrl } = req.body;
-        
-        doc.hero = {
-            text: {
-                title: title || '',
-                tagline: tagline || ''
-            },
-            backgroundUrl: backgroundUrl || ''
-        };await doc.save();
-        res.status(201).json({ success: true, data: doc.hero, message: 'Hero section added successfully' });
+        const { title, tagline, backgroundUrl, image, imageUrl } = req.body;
+        const bg = backgroundUrl || image || imageUrl;
+
+        if (title !== undefined && title !== null) doc.hero.text.title = title;
+        if (tagline !== undefined && tagline !== null) doc.hero.text.tagline = tagline;
+        if (bg !== undefined && bg !== null) doc.hero.backgroundUrl = bg;
+
+        await doc.save();
+        res.status(201).json({ success: true, data: doc.hero, message: 'Hero section processed successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -83,7 +82,8 @@ const addAttractionsDetails = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) doc = new Attraction();
-        const { title, description, list } = req.body;
+        const { title, description, list, cards } = req.body;
+        const items = list || cards;
 
         const normalizeItem = (item) => ({
             title: item.title || '',
@@ -96,12 +96,15 @@ const addAttractionsDetails = async (req, res) => {
             }
         });
 
-        doc.rideDetails = {
-            text: { title: title || '', description: description || '' },
-            list: list ? (Array.isArray(list) ? list.map(normalizeItem) : [normalizeItem(list)]) : []
-        };
+        if (title !== undefined && title !== null) doc.rideDetails.text.title = title;
+        if (description !== undefined && description !== null) doc.rideDetails.text.description = description;
+        
+        if (items !== undefined && items !== null) {
+            doc.rideDetails.list = Array.isArray(items) ? items.map(normalizeItem) : [normalizeItem(items)];
+        }
+        
         await doc.save();
-        res.status(201).json({ success: true, data: doc.rideDetails, message: 'Ride details section added successfully' });
+        res.status(201).json({ success: true, data: doc.rideDetails, message: 'Ride details section processed successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -109,11 +112,13 @@ const updateAttractionsDetails = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, description, list, index } = req.body;
+        const { title, description, list, cards, index } = req.body;
+        const items = list || cards;
+
         if (title !== undefined && title !== null) doc.rideDetails.text.title = title;
         if (description !== undefined && description !== null) doc.rideDetails.text.description = description;
         
-        if (list !== undefined && list !== null) {
+        if (items !== undefined && items !== null) {
             const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
             
             const normalizeItem = (item) => ({
@@ -130,20 +135,24 @@ const updateAttractionsDetails = async (req, res) => {
             if (idx !== undefined && !isNaN(idx)) {
                 if (idx >= 0 && idx < doc.rideDetails.list.length) {
                     const currentItem = doc.rideDetails.list[idx];
-                    const normalized = normalizeItem(list);
-                    if (normalized.title !== undefined) currentItem.title = normalized.title;
-                    if (normalized.category !== undefined) currentItem.category = normalized.category;
-                    if (normalized.description !== undefined) currentItem.description = normalized.description;
-                    if (normalized.imageUrl !== undefined) currentItem.imageUrl = normalized.imageUrl;
-                    if (normalized.requirements !== undefined) {
-                        if (normalized.requirements.height !== undefined) currentItem.requirements.height = normalized.requirements.height;
-                        if (normalized.requirements.age !== undefined) currentItem.requirements.age = normalized.requirements.age;
+                    const itemPayload = Array.isArray(items) ? items[0] : items;
+                    
+                    if (itemPayload.title !== undefined) currentItem.title = itemPayload.title;
+                    if (itemPayload.category !== undefined) currentItem.category = itemPayload.category;
+                    if (itemPayload.description !== undefined) currentItem.description = itemPayload.description;
+                    if (itemPayload.imageUrl !== undefined || itemPayload.image !== undefined) {
+                        currentItem.imageUrl = itemPayload.imageUrl || itemPayload.image;
+                    }
+                    if (itemPayload.requirements !== undefined) {
+                        if (!currentItem.requirements) currentItem.requirements = { height: '', age: '' };
+                        if (itemPayload.requirements.height !== undefined) currentItem.requirements.height = itemPayload.requirements.height;
+                        if (itemPayload.requirements.age !== undefined) currentItem.requirements.age = itemPayload.requirements.age;
                     }
                 } else if (idx === doc.rideDetails.list.length || idx === -1) {
-                    doc.rideDetails.list.push(normalizeItem(list));
+                    doc.rideDetails.list.push(normalizeItem(Array.isArray(items) ? items[0] : items));
                 }
             } else {
-                doc.rideDetails.list = Array.isArray(list) ? list.map(normalizeItem) : [normalizeItem(list)];
+                doc.rideDetails.list = Array.isArray(items) ? items.map(normalizeItem) : [normalizeItem(items)];
             }
         }
         await doc.save();
@@ -155,16 +164,17 @@ const deleteAttractionsDetails = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, description, list, index } = req.body;
-        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
-        if (Object.keys(req.body).length === 0) {
+        const { title, description, list, cards, index } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : (req.body && Array.isArray(req.body.fields)) ? req.body.fields : [];
+        if (Object.keys(req.body || {}).length === 0) {
             doc.rideDetails = { text: { title: '', description: '' }, list: [] };
         } else {
             if (title === true || fields.includes('title')) doc.rideDetails.text.title = '';
             if (description === true || fields.includes('description')) doc.rideDetails.text.description = '';
-            if (list === true || fields.includes('list')) {
-                if (index !== undefined && typeof index === 'number') {
-                    if (index >= 0 && index < doc.rideDetails.list.length) doc.rideDetails.list.splice(index, 1);
+            if (list === true || cards === true || fields.includes('list') || fields.includes('cards')) {
+                if (index !== undefined && index !== null) {
+                    const idx = Number(index);
+                    if (idx >= 0 && idx < doc.rideDetails.list.length) doc.rideDetails.list.splice(idx, 1);
                 } else {
                     doc.rideDetails.list = [];
                 }
@@ -184,14 +194,18 @@ const addAttractionsSafety = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) doc = new Attraction();
-        const { title, subtitle, rules } = req.body;
-        doc.safetySection = {
-            title: title || '',
-            subtitle: subtitle || '',
-            rules: rules ? (Array.isArray(rules) ? rules : [rules]) : []
-        };
+        const { title, subtitle, rules, cards } = req.body;
+        const items = rules || cards;
+
+        if (title !== undefined && title !== null) doc.safetySection.title = title;
+        if (subtitle !== undefined && subtitle !== null) doc.safetySection.subtitle = subtitle;
+        
+        if (items !== undefined && items !== null) {
+            doc.safetySection.rules = Array.isArray(items) ? items : [items];
+        }
+        
         await doc.save();
-        res.status(201).json({ success: true, data: doc.safetySection, message: 'Safety section added successfully' });
+        res.status(201).json({ success: true, data: doc.safetySection, message: 'Safety section processed successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
@@ -199,18 +213,26 @@ const updateAttractionsSafety = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, subtitle, rules, index } = req.body;
+        const { title, subtitle, rules, cards, index } = req.body;
+        const items = rules || cards;
+
         if (title !== undefined && title !== null) doc.safetySection.title = title;
         if (subtitle !== undefined && subtitle !== null) doc.safetySection.subtitle = subtitle;
-        if (rules !== undefined && rules !== null) {
-            if (index !== undefined && typeof index === 'number') {
-                if (index >= 0 && index < doc.safetySection.rules.length) {
-                    const currentRule = doc.safetySection.rules[index];
-                    if (rules.title !== undefined) currentRule.title = rules.title;
-                    if (rules.content !== undefined) currentRule.content = rules.content;
+        
+        if (items !== undefined && items !== null) {
+            const idx = (index !== undefined && index !== null) ? Number(index) : undefined;
+            
+            if (idx !== undefined && !isNaN(idx)) {
+                if (idx >= 0 && idx < doc.safetySection.rules.length) {
+                    const currentRule = doc.safetySection.rules[idx];
+                    const itemPayload = Array.isArray(items) ? items[0] : items;
+                    if (itemPayload.title !== undefined) currentRule.title = itemPayload.title;
+                    if (itemPayload.content !== undefined) currentRule.content = itemPayload.content;
+                } else if (idx === doc.safetySection.rules.length || idx === -1) {
+                    doc.safetySection.rules.push(Array.isArray(items) ? items[0] : items);
                 }
             } else {
-                doc.safetySection.rules = Array.isArray(rules) ? rules : [rules];
+                doc.safetySection.rules = Array.isArray(items) ? items : [items];
             }
         }
         await doc.save();
@@ -222,16 +244,17 @@ const deleteAttractionsSafety = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) return res.status(404).json({ success: false, error: 'Data not seeded' });
-        const { title, subtitle, rules, index } = req.body;
-        const fields = Array.isArray(req.body) ? req.body : Array.isArray(req.body.fields) ? req.body.fields : [];
-        if (Object.keys(req.body).length === 0) {
+        const { title, subtitle, rules, cards, index } = req.body;
+        const fields = Array.isArray(req.body) ? req.body : (req.body && Array.isArray(req.body.fields)) ? req.body.fields : [];
+        if (Object.keys(req.body || {}).length === 0) {
             doc.safetySection = { title: '', subtitle: '', rules: [] };
         } else {
             if (title === true || fields.includes('title')) doc.safetySection.title = '';
             if (subtitle === true || fields.includes('subtitle')) doc.safetySection.subtitle = '';
-            if (rules === true || fields.includes('rules')) {
-                if (index !== undefined && typeof index === 'number') {
-                    if (index >= 0 && index < doc.safetySection.rules.length) doc.safetySection.rules.splice(index, 1);
+            if (rules === true || cards === true || fields.includes('rules') || fields.includes('cards')) {
+                if (index !== undefined && index !== null) {
+                    const idx = Number(index);
+                    if (idx >= 0 && idx < doc.safetySection.rules.length) doc.safetySection.rules.splice(idx, 1);
                 } else {
                     doc.safetySection.rules = [];
                 }
@@ -250,10 +273,16 @@ const addAttractionsCta = async (req, res) => {
     try {
         let doc = await Attraction.findOne();
         if (!doc) doc = new Attraction();
-        const { buttonLabel, url } = req.body;
-        doc.cta = { buttonLabel: buttonLabel || '', url: url || '' };
+        const { buttonLabel, url, button } = req.body;
+        
+        const label = buttonLabel || (button && button.label);
+        const targetUrl = url || (button && button.url);
+
+        if (label !== undefined && label !== null) doc.cta.buttonLabel = label;
+        if (targetUrl !== undefined && targetUrl !== null) doc.cta.url = targetUrl;
+
         await doc.save();
-        res.status(201).json({ success: true, data: doc.cta, message: 'CTA section added successfully' });
+        res.status(201).json({ success: true, data: doc.cta, message: 'CTA section processed successfully' });
     } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 };
 
