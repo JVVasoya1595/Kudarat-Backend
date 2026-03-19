@@ -11,7 +11,6 @@ const { upload } = require('../controllers/uploadController');
 const router = express.Router();
 
 router.get('/', getAbout);
-
 router.get('/hero', getAboutHero);
 router.post('/hero/add', upload.any(), addAboutHero);
 router.put('/hero/update', upload.any(), updateAboutHero);

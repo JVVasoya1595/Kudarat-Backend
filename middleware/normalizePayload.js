@@ -5,6 +5,10 @@
  * natively capture them.
  */
 const normalizePayloadMiddleware = (req, res, next) => {
+    if (!req.body) {
+        req.body = {};
+    }
+
     if (req.body && typeof req.body === 'object') {
         
         // If the payload specifically wraps its own entity
